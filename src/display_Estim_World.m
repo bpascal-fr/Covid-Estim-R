@@ -52,7 +52,7 @@ function display_Estim_World(Countries,Estimates,results)
         if isfield(results,'MLE'),   results.MLE = reshape(results.MLE,1,max(d1,d2));     end
         if isfield(results,'Gamma'), results.Gamma = reshape(results.Gamma,1,max(d1,d2)); end
         if isfield(results,'U'),     results.U = reshape(results.U,1,max(d1,d2));         end
-        if isfield(results,'U_C'),   results.U_C = reshape(results.U-C,1,max(d1,d2));     end
+        if isfield(results,'U_C'),   results.U_C = reshape(results.U_C,1,max(d1,d2));     end
     end
 
 
