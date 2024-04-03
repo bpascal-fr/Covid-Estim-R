@@ -21,8 +21,8 @@ This project contains the `Matlab` codes associated to the journal papers:
 `Python` versions of these codes developed from the present toolbox by J. Du in collaboration with P. Abry and B. Pascal is available in [Covid-R-Estim](https://github.com/juliana-du/Covid-R-estim).
 
 Two demonstration scripts are provided:
-- [`demo_R_World`]() for the daily estimation of the reproduction number in the 200+ countries monitored by [Johns Hopkins University](https://coronavirus.jhu.edu/) independently;
-- [`demo_R_France`]() for the daily estimation of the reproduction number in the 104 French departments for which daily infection counts are reported by [Santé Publique France](https://www.data.gouv.fr/fr/datasets/donnees-de-laboratoires-pour-le-depistage-a-compter-du-18-05-2022-si-dep/), including possible multivariate estimation leveraging *spatial* regularization.
+- [`demo_R_World`](https://github.com/bpascal-fr/Covid-Estim-R/blob/master/demo_R_World.m) for the daily estimation of the reproduction number in the 200+ countries monitored by [Johns Hopkins University](https://coronavirus.jhu.edu/) independently;
+- [`demo_R_France`](https://github.com/bpascal-fr/Covid-Estim-R/blob/master/demo_R_France.m) for the daily estimation of the reproduction number in the 104 French departments for which daily infection counts are reported by [Santé Publique France](https://www.data.gouv.fr/fr/datasets/donnees-de-laboratoires-pour-le-depistage-a-compter-du-18-05-2022-si-dep/), including possible multivariate estimation leveraging *spatial* regularization.
 
 Animated maps presenting the obtained estimates have been developed by the consortium and are available at [covidatlas.eu](https://www.covidatlas.eu/World/).
 
