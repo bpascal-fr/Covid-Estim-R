@@ -1,5 +1,5 @@
 % Display the new infection counts and estimated reproduction number for
-% all countries selected and during the analyzed time period.
+% all French departments selected and during the analyzed time period.
 %
 % Implementation B. Pascal,
 % March, 2024
