@@ -3,7 +3,6 @@ close all
 clc
 
 addpath(genpath(pwd))
-addpath(genpath('/Users/bpascal/ownCloud/PhD_Barbara/Matlab/stein-piecewise-filtering'))
 
 % All estimators process infection count times series of size D x T
 % - D: number of French departments 
