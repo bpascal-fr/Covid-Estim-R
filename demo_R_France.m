@@ -49,7 +49,7 @@ results.Estimates = [];
 % Cori et. al, 2013, Am. J. Epidemiol. the maximum likehood
 % estimator is R_MLE(t) = Z(t)/Zphi(t)
 
-R_MLE             = Z./Zphi;
+R_MLE             = R_MaxLikelihood(Z,Zphi);
 
 results.Estimates = [results.Estimates, "MLE"];
 results.MLE       = R_MLE;

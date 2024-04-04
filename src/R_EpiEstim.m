@@ -21,6 +21,12 @@
 
 function R_Gamma = R_EpiEstim(Z,Zphi,tau)
 
+    % Inputs:  - Z: new infection counts
+    %          - Zphi: global infectiousness defined as a weighted sum of past counts
+    %          - tau: number of days during which R is assumed constant
+    %
+    % Output:  - R: estimated maximum a posteriori reproduction number
+
     % Resize input
     [d1,d2]     = size(Z);
     if min(d1,d2) == 1
