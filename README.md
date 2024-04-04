@@ -1,9 +1,8 @@
 # Estimation of Covid19 reproduction number via nonsmooth convex optimization
 
-**Contributors:** P. Abry(1), J. Du(1), C.-G. Lucas(1), B. Pascal(2), and N. Pustelnik(1).
+**Contributors:** P. Abry(1), J. Du(1), C.-G. Lucas(1), B. Pascal(2)), and N. Pustelnik(1).
 
-
-(1)CNRS, ENS de Lyon Laboratoire de physique F-69007 Lyon, France.  
+(1) CNRS, ENS de Lyon Laboratoire de physique F-69007 Lyon, France.  
 (2) Nantes Université, École Centrale Nantes, CNRS, LS2N, UMR 6004, F-44000 Nantes, France.
 
 Fundings: ANR-23-CE48-0009 [OptiMoCSI](https://optimocsi.cnrs.fr/) and CNRS 80PRIME-2021 «CoMoDécartes» project.
