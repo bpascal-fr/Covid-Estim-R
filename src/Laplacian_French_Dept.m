@@ -70,4 +70,20 @@ function G_User = Laplacian_French_Dept(Departments)
         G_User = G_All(:,Departments.Indices);
         
     end
+
+    % Remove the edges which are one-sided
+    valid_edges = [];
+    for edge    = 1:size(G_User,1)
+        if sum(abs(G_User(edge,:)) > 0) < 2
+            G_User(edge,:) = 0;
+        else
+            valid_edges    = [valid_edges, edge];
+        end
+    end
+    if isempty(valid_edges)
+        G_User             = 0; % no edge at all between the territories
+        disp('here')
+    else
+        G_User             = G_User(valid_edges,:); % store only valid edges
+    end
 end
