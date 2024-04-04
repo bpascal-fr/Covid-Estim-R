@@ -82,7 +82,6 @@ function G_User = Laplacian_French_Dept(Departments)
     end
     if isempty(valid_edges)
         G_User             = 0; % no edge at all between the territories
-        disp('here')
     else
         G_User             = G_User(valid_edges,:); % store only valid edges
     end
