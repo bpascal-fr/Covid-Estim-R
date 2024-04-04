@@ -145,7 +145,7 @@ results.U_C       = R_U_C;
 
 %% DISPLAY INFECTION COUNTS AND ESTIMATED REPRODUCTION NUMBER
 
-% Estimators to be displayed
+% Estimators to be compared
 DisplayEstimates    = ["MLE","Gamma","U","U-C"];
 % - MLE:   maximum likelihood estimate
 % - Gamma: maximum a posteriori under Gamma prior from Cori et al. (2013)
@@ -154,7 +154,11 @@ DisplayEstimates    = ["MLE","Gamma","U","U-C"];
 % If DisplayEstimates = [] all estimates available will be displayed.
 
 % Display infection counts and estimates
-display_Estim_World(DisplayCountries,DisplayEstimates,results)
-% DisplayCountries = [] displays all analyzed countries.
+display_Estim_World(DisplayCountries,DisplayEstimates,results) % DisplayCountries = [] displays all analyzed countries.
 
 
+% Countries to be compared
+CompareCountries   = ["France","Canada","Spain"]; 
+
+% Compare reproduction number estimates in different departments
+compare_Estim_World(CompareCountries,DisplayEstimates,results)

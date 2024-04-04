@@ -28,7 +28,6 @@ function display_Estim_World(Countries,Estimates,results)
     AllEstimates = ["MLE","Gamma","U","U-C"];
 
     % By default plot all available estimates and discard invalid estimates
-    % By default plot all available estimates and discard invalid estimates
     if isempty(Estimates)
         Estimates = results.Estimates;
     else

@@ -3,6 +3,7 @@ close all
 clc
 
 addpath(genpath(pwd))
+addpath(genpath('/Users/bpascal/ownCloud/PhD_Barbara/Matlab/stein-piecewise-filtering'))
 
 % All estimators process infection count times series of size D x T
 % - D: number of French departments 
@@ -17,7 +18,7 @@ list                = 1; % 1 display the list, 0 do not show it
 AllDepartments      = get_FrenchDepartments(list); 
 
 % List of departments to monitor
-User_Departments    = ["59","69","75","975"]; % Official French numerotation (correspondence provided by get_FrenchDepartments, second column: Number)
+User_Departments    = ["44","59","69","75","971","975"]; % Official French numerotation (correspondence provided by get_FrenchDepartments, second column: Number)
 % If [] all 104 French departments are selected.
 % Departments are stored in the order indicated in User_Departments or in the official INSEE order with Corsica between Finistère (29) and Gard (30) if User_Departments = [].
 
@@ -234,7 +235,7 @@ results.M_C            = R_M_C;
 
 %% DISPLAY INFECTION COUNTS AND ESTIMATED REPRODUCTION NUMBER
 
-% Estimators to be displayed
+% Estimators to be compared
 DisplayEstimates    = ["MLE","Gamma","U","U-C","M","M-C"];
 % - MLE:   maximum likelihood estimate
 % - Gamma: maximum a posteriori under Gamma prior from Cori et al. (2013)
@@ -244,8 +245,11 @@ DisplayEstimates    = ["MLE","Gamma","U","U-C","M","M-C"];
 % - M-C:   univariate estimate with piecewise linear temporal behavior, piecewise constant spatial behavior and estimation of corrective terms from Pascal et al. (2022)
 % If DisplayEstimates = [] all estimates available will be displayed.
 
-% Display infection counts and estimates
-display_Estim_France(DisplayDepartments,DisplayEstimates,results)
-% DisplayDepartments = [] displays all analyzed departments.
+% Display infection counts and estimates per department
+display_Estim_France(DisplayDepartments,DisplayEstimates,results) % DisplayDepartments = [] displays all analyzed departments.
 
+% Departments to be compared
+CompareDepartments   = ["44","59","69","75","971"]; 
 
+% Compare reproduction number estimates in different departments
+compare_Estim_France(CompareDepartments,DisplayEstimates,results)
