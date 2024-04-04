@@ -28,7 +28,7 @@ function display_Counts_France(Departments,results)
             warning(strcat(Departments(d)," will be ignored in the plots, either because it is not a valid French department INSEE number or because it was not included in the analysis."))
         else
             ind             = find(strcmp(results.Departments.Numbers,Departments(d)));
-            f1              = figure(1000 + d);
+            f1              = figure(1000 + d); clf
             p               = plot(results.Dates, results.Z(ind,:),'-','linewidth',2,'color','black') ;
             grid on ; hold on
             q               = plot(results.Dates, results.Zphi(ind,:),'-.','linewidth',2,'color','black') ;

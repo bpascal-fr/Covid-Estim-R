@@ -66,7 +66,7 @@ function display_Estim_France(Departments,Estimates,results)
             warning(strcat(Departments(d)," will be ignored in the plots, either because it is not a valid French department INSEE number or because it was not included in the analysis."))
         else
             ind             = find(strcmp(results.Departments.Numbers,Departments(d)));
-            f2              = figure(2000 + d);
+            f2              = figure(2000 + d); clf
             plot(results.Dates,ones(size(results.Z(ind,:))),'k-','LineWidth',1);
             grid on; hold on
             Q               = [];
@@ -125,7 +125,7 @@ function display_Estim_France(Departments,Estimates,results)
 
 
 
-                f3 = figure(3000 + d);
+                f3 = figure(3000 + d); clf
                 subplot(211)
                 p               = plot(results.Dates, results.Z(ind,:),'-','linewidth',2,'color','black') ;
                 grid on ; hold on

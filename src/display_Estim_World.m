@@ -64,7 +64,7 @@ function display_Estim_World(Countries,Estimates,results)
 
         else
 
-            f2              = figure(2000 + n);
+            f2              = figure(2000 + n); clf
             plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
             grid on; hold on
             Q               = [];
@@ -111,7 +111,7 @@ function display_Estim_World(Countries,Estimates,results)
 
 
 
-                f3 = figure(3000 + n);
+                f3 = figure(3000 + n); clf
                 subplot(211)
                 p               = plot(results.Dates, results.Z(n,:),'-','linewidth',2,'color','black') ;
                 grid on ; hold on

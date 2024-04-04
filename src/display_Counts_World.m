@@ -27,7 +27,7 @@ function display_Counts_World(Countries,results)
         if ~sum(contains(results.Countries,Countries(n)))
             warning(strcat(Countries(n)," was not analysed, either because it was not found in JHU repository or because it has not been indicated by the user in the preamble. Hence, ",Countries(n)," will not appear in the plots."))
         else
-            f1              = figure(1000 + n);
+            f1              = figure(1000 + n); clf
             p               = plot(results.Dates, results.Z(n,:),'-','linewidth',2,'color','black') ;
             grid on ; hold on
             q               = plot(results.Dates, results.Zphi(n,:),'-.','linewidth',2,'color','black') ;
