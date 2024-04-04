@@ -170,6 +170,14 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
     op.direct         = @(x)opL(x, filter_def, computation, param);
     op.adjoint        = @(x)opLadj(x, filter_def, computation, param);
 
+    % Handle trivial estimates
+    for c = 1:size(Z,1)
+        if sum(Z(c,:) == 0) == size(Z,2)
+            x(c,:) = 0;
+        end
+    end
+
+
     % Resize the output to fit input size
     R                 = reshape(x(:,1:T),d1,d2); 
     O                 = reshape(x(:,T+1:end),d1,d2); 

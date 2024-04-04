@@ -151,6 +151,13 @@ function [R,obj,incr,op] = R_Univariate(Z,Zphi,lambda,opts)
     op.direct          = @(x)opL(x, filter_def, computation, param);
     op.adjoint         = @(x)opLadj(x, filter_def, computation, param);
 
+    % Handle trivial estimates
+    for c = 1:size(Z,1)
+        if sum(Z(c,:) == 0) == size(Z,2)
+            R(c,:) = 0;
+        end
+    end
+
     % Resize the output to fit input size
     R                 = reshape(R,d1,d2);
 
