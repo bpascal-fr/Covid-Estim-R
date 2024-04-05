@@ -30,8 +30,8 @@ function x = opLadj_R1R2(y,filter_def, computation,param)
                     y  = y(:,3:end);
                     dim = size(y);
                     x  = param.lambda*([y(:,1:1)/4,-y(:,1)/2 + y(:,2)/4, y(:,3:dim(2)-2)/4 - y(:,2:dim(2)-3)/2 + y(:,1:dim(2)-4)/4, y(:,dim(2)-3)/4 - y(:,dim(2)-2)/2, y(:,dim(2)-2)/4]);
-                    x(1)  = x(1) + param.lambda*(y1(:,1)/4 - y1(:,2)/2);
-                    x(2)  = x(2) + param.lambda*(y1(:,2)/4);
+                    x(:,1)  = x(:,1) + param.lambda*(y1(:,1)/4 - y1(:,2)/2);
+                    x(:,2)  = x(:,2) + param.lambda*(y1(:,2)/4);
                 end
             else
                 error('Multivariate not available.')

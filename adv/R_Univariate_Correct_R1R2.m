@@ -117,14 +117,14 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     if strcmp(opts.dataterm,'DKL')
 
         opts.mu            = 0;
-        objective.fidelity = @(y,Z) DKLw_outlier(y,Z(:,3:T),Zphi(:,3:T));
-        prox.fidelity      = @(y,Z,tau) prox_DKLw_outlier(y,Z(:,3:T),Zphi(:,3:T),tau);
+        objective.fidelity = @(y,Zeff) DKLw_outlier(y,Zeff,Zphi(:,3:T));
+        prox.fidelity      = @(y,Zeff,tau) prox_DKLw_outlier(y,Zeff,Zphi(:,3:T),tau);
 
     elseif strcmp(opts.dataterm,'L2')
 
         opts.mu = 0;
-        objective.fidelity = @(y,Z) 0.5*sum(sum((Z(:,3:T) - Zphi(:,3:T).*y(:,1:Teff) - y(:,Teff+1:end) ).^2));
-        prox.fidelity      = @(y,Z,tau) prox_L2w_outlier(y,Z(:,3:T),Zphi(:,3:T),tau);
+        objective.fidelity = @(y,Zeff) 0.5*sum(sum((Zeff - Zphi(:,3:T).*y(:,1:Teff) - y(:,Teff+1:end) ).^2));
+        prox.fidelity      = @(y,Zeff,tau) prox_L2w_outlier(y,Zeff,Zphi(:,3:T),tau);
         
     end
 
@@ -152,7 +152,8 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     opts.xi           = [opts.Ri, opts.Oi];
 
     % Minimization of the functional with Chambolle-Pock algorithm
-    [x,obj,incr]      = PD_ChambollePock_Covid(Z, objective, op, prox, opts);
+    Zeff              = Z(:,3:T);
+    [x,obj,incr]      = PD_ChambollePock_Covid(Zeff, objective, op, prox, opts);
 
     % Linear operator involved in the regularization
     param.lambda      = 1;

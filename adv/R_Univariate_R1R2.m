@@ -21,12 +21,12 @@
 % Multi-Sensor Adaptive Processing (CAMSAP) (pp. 356-360). IEEE.
 
 
-function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda_T,opts)
+function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda,opts)
 
 
     % Minimization of the Poisson penalized log-likelood
     %
-    %   DKL(Z | R Zphi) + lambda_T * || (D2 R)_3:T ||_1 + lambda_T * | (D2 R)_1 - R2/2 + R1/4 | + lambda_T * | (D2 R)_2 + R2/4 |
+    %   DKL(Z | R Zphi) + lambda * || (D2 R)_3:T ||_1 + lambda * | (D2 R)_1 - R2/2 + R1/4 | + lambda * | (D2 R)_2 + R2/4 |
     %
     % where DKL stands for the Kullback-Leibler divergence, D2 is the discrete
     % Laplacian operator, || . ||_1 the ell_1-norm defined as the sum of
@@ -74,7 +74,7 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda_T,opts)
 
     %% DEFAULTS OPTIONS
 
-    if nargin == 4
+    if nargin == 3
         opts     = struct;
     end
 
@@ -113,14 +113,14 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda_T,opts)
     if strcmp(opts.dataterm,'DKL')
 
         opts.mu            = 0;
-        objective.fidelity = @(y,Z) DKLw(y,Z(:,3:T),Zphi(:,3:T));
-        prox.fidelity      = @(y,Z,tau) prox_DKLw(y,Z(:,3:T),Zphi(:,3:T),tau);
+        objective.fidelity = @(y,Zeff) DKLw(y,Zeff,Zphi(:,3:T));
+        prox.fidelity      = @(y,Zeff,tau) prox_DKLw(y,Zeff,Zphi(:,3:T),tau);
 
     elseif strcmp(opts.dataterm,'L2')
 
         opts.mu = 0;
-        objective.fidelity = @(y,Z) 0.5*sum(sum((Z(:,3:T) - Zphi(:,3:T).*y).^2));
-        prox.fidelity      = @(y,Z,tau) prox_L2w(y,Z(:,3:T),Zphi(:,3:T),tau);
+        objective.fidelity = @(y,Zeff) 0.5*sum(sum((Zeff - Zphi(:,3:T).*y).^2));
+        prox.fidelity      = @(y,Zeff,tau) prox_L2w(y,Zeff,Zphi(:,3:T),tau);
         
     end
 
@@ -133,13 +133,13 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda_T,opts)
     % Linear operators
     filter_def   = opts.prior;
     computation  = 'direct';
-    param.lambda = lambda_T;
+    param.lambda = lambda;
     param.type   = '1D';
     param.op     = opts.prior;
 
     op.direct    = @(x) opL_R1R2(x, filter_def, computation, param);
     op.adjoint   = @(x) opLadj_R1R2(x, filter_def, computation, param);
-    opts.normL   = max(lambda_T^2+1,lambda_O^2);
+    opts.normL   = lambda^2;
     
 
     %% RUN THE ALGORITHM AND PREPARE OUTPUTS
@@ -148,7 +148,8 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda_T,opts)
     opts.xi           = opts.Ri;
 
     % Minimization of the functional with Chambolle-Pock algorithm
-    [R,obj,incr]      = PD_ChambollePock_Covid(Z, objective, op, prox, opts);
+    Zeff              = Z(:,3:T);
+    [R,obj,incr]      = PD_ChambollePock_Covid(Zeff, objective, op, prox, opts);
 
     % Linear operator involved in the regularization
     param.lambda      = 1;
