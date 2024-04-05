@@ -4,7 +4,7 @@ function xt = opL_R1R2(x,filter_def, computation,param)
     % Implementation N. PUSTELNIK, CNRS, ENS Lyon
     % June 2019
     %
-    % Updated to exclude the two first components
+    % Updated to fix the two first components
     % B. Pascal, CNRS, LS2N
     % April 2024
 
