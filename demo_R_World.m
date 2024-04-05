@@ -37,7 +37,7 @@ results.Z         = Z;
 results.Zphi      = Zphi;
 
 % Countries to be displayed
-DisplayCountries    = ["France","United Kingdom"];
+DisplayCountries  = ["France","United Kingdom"];
 
 % Display infection counts time series for monitored countries
 results.FontSize  = 22.5; % Adjust font size in plots
@@ -77,7 +77,7 @@ results.Gamma     = R_Gamma;
 % Temporal regularization parameter
 lambda_T = 50;
 
-custom = 0;
+custom   = 0;
 % 0: all parameters of the estimator are set to default values
 % 1: some parameters are set manually (more parameters listed in R_Univariate)
 
@@ -90,9 +90,9 @@ if custom == 0
 else
 
     % Customized settings of the variational estimator
-    opts_U.Ri   = R_MLE;  % initialization
-    opts_U.prec = 1e-7;   % required precision on increments for convergence
-    opts_U.iter = 1e5;    % maximal number of iterations
+    opts_U.Ri          = R_MLE;  % initialization
+    opts_U.prec        = 1e-7;   % required precision on increments for convergence
+    opts_U.iter        = 1e5;    % maximal number of iterations
     
     % Perform estimation via functional minimization
     scale              = std(Z,[],2);   % scale of infection counts
@@ -116,7 +116,7 @@ lambda_T = 3.5;
 % Sparsity of the corrective term
 lambda_O = 0.05;
 
-custom = 0;
+custom   = 0;
 % 0: all parameters of the estimator are set to default values
 % 1: some parameters are set mcanually (more parameters listed in R_Univariate_Correct)
 
@@ -129,9 +129,9 @@ if custom == 0
 else
 
     % Customized settings of the variational estimator
-    opts_U_C.xi   = R_MLE;  % initialization
-    opts_U_C.prec = 1e-7;   % required precision on increments for convergence
-    opts_U_C.iter = 1e7;    % maximal number of iterations
+    opts_U_C.xi                   = R_MLE;  % initialization
+    opts_U_C.prec                 = 1e-7;   % required precision on increments for convergence
+    opts_U_C.iter                 = 1e7;    % maximal number of iterations
 
     % Perform estimation via functional minimization
     scale                          = std(Z,[],2);   % scale of infection counts
