@@ -55,7 +55,7 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
     end
 
     % Number of days
-    T     = size(Z,2);
+    T     = size(results.Z,2);
     Teff  = T-2;
 
     for n = 1:length(Countries)
@@ -83,13 +83,13 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
                 iEst        = iEst + 1;
             end
             if ~isempty(find(strcmp(Estimates,'U-12'),1)) && ~isempty(find(strcmp(results.Estimates,'U-12'),1))
-                q3          = plot(results.Dates(3:Teff), results.U_12(n,:),'-','linewidth',2,'color','blue') ;
+                q3          = plot(results.Dates(3:T), results.U_12(n,:),'-','linewidth',2,'color','blue') ;
                 Q           = [Q, q3];
                 L{iEst}     = '$\mathrm{R}^{\mathrm{U-12}}_t$';
                 iEst        = iEst + 1;
             end
             if ~isempty(find(strcmp(Estimates,'U-C-12'),1)) && ~isempty(find(strcmp(results.Estimates,'U-C-12'),1))
-                q4          = plot(results.Dates(3:Teff), results.U_C(n,:),'-','linewidth',2,'color','red') ;
+                q4          = plot(results.Dates(3:T), results.U_C_12(n,:),'-','linewidth',2,'color','red') ;
                 Q           = [Q, q4];
                 L{iEst}     = '$\mathrm{R}^{\mathrm{U-C-12}}_t$';
                 iEst        = iEst + 1;
@@ -145,13 +145,13 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
                     iEst        = iEst + 1;
                 end
                 if ~isempty(find(strcmp(Estimates,'U-12'),1)) && ~isempty(find(strcmp(results.Estimates,'U-12'),1))
-                    q3          = plot(results.Dates(3:Teff), results.U_12(n,:),'-','linewidth',2,'color','blue') ;
+                    q3          = plot(results.Dates(3:T), results.U_12(n,:),'-','linewidth',2,'color','blue') ;
                     Q           = [Q, q3];
                     L{iEst}     = '$\mathrm{R}^{\mathrm{U-12}}_t$';
                     iEst        = iEst + 1;
                 end
                 if ~isempty(find(strcmp(Estimates,'U-C-12'),1)) && ~isempty(find(strcmp(results.Estimates,'U-C-12'),1))
-                    q4          = plot(results.Dates(3:Teff), results.U_C_12(n,:),'-','linewidth',2,'color','red') ;
+                    q4          = plot(results.Dates(3:T), results.U_C_12(n,:),'-','linewidth',2,'color','red') ;
                     Q           = [Q, q4];
                     L{iEst}     = '$\mathrm{R}^{\mathrm{U-C-12}}_t$';
                     iEst        = iEst + 1;
