@@ -2,6 +2,8 @@
 % epidemic and of corrective terms modeling misreported counts from new 
 % infection counts time series Z(t).
 %
+% Extended version keeping fixed the two first values R(1) and R(2).
+%
 % from
 % - Cori, A., Ferguson, N. M., Fraser, C., & Cauchemez, S. (2013).
 % A new framework and software to estimate time-varying reproduction
@@ -12,14 +14,19 @@
 % & Flandrin, P. (2022). Nonsmooth convex optimization to estimate the 
 % Covid-19 reproduction number space-time evolution with robustness against 
 % low quality data. IEEE Transactions on Signal Processing, 70, 2859–2868.
+%
+% - Abry, P., Chevallier, J., Fort, G., & Pascal, B. (2023, December). 
+% Pandemic intensity estimation from Stochastic Approximation-based algorithms. 
+% In 2023 IEEE 9th International Workshop on Computational Advances in 
+% Multi-Sensor Adaptive Processing (CAMSAP) (pp. 356-360). IEEE.
 
 
-function [R,O,obj,incr,op] = R_Univariate_Correct(Z,Zphi,lambda_T,lambda_O,opts)
+function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,opts)
 
 
     % Minimization of the Poisson penalized log-likelood
     %
-    %   DKL(Z | R Zphi + O) + lambda_T * || D2 R ||_1 + lambda_O * || O ||_1 + I( R >= 0 )
+    %   DKL(Z | R Zphi + O) + lambda_T * || (D2 R)_3:T ||_1 + lambda_T * | (D2 R)_1 - R2/2 + R1/4 | + lambda_T * | (D2 R)_2 + R2/4 | + lambda_O * || O ||_1 + I( R >= 0 )
     %
     % where DKL stands for the Kullback-Leibler divergence, D2 is the discrete
     % Laplacian operator, || . ||_1 the ell_1-norm defined as the sum of
