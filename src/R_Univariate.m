@@ -141,24 +141,24 @@ function [R,obj,incr,op] = R_Univariate(Z,Zphi,lambda,opts)
     %% RUN THE ALGORITHM AND PREPARE OUTPUTS
 
     % store the initialization of the primal-dual algorithm in correct form
-    opts.xi             = opts.Ri;
+    opts.xi           = opts.Ri;
 
     % Minimization of the functional with Chambolle-Pock algorithm
     [R,obj,incr]      = PD_ChambollePock_Covid(Z, objective, op, prox, opts);
 
     % Linear operator involved in the regularization
-    param.lambda       = 1;
-    op.direct          = @(x)opL(x, filter_def, computation, param);
-    op.adjoint         = @(x)opLadj(x, filter_def, computation, param);
+    param.lambda      = 1;
+    op.direct         = @(x)opL(x, filter_def, computation, param);
+    op.adjoint        = @(x)opLadj(x, filter_def, computation, param);
 
     % Handle trivial estimates
     for c = 1:size(Z,1)
         if sum(isnan(Z(c,:))) == size(Z,2)
-            R(c,:)     = 0;
+            R(c,:)    = 0;
         end
     end
 
     % Resize the output to fit input size
-    R                  = reshape(R,d1,d2);
+    R                 = reshape(R,d1,d2);
 
 end
