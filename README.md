@@ -17,11 +17,14 @@ This project contains the `Matlab` codes associated to the journal papers:
 > Pascal, B., Abry, P., Pustelnik, N., Roux, S., Gribonval, R., & Flandrin, P. (2022). Nonsmooth convex optimization to estimate the Covid-19 reproduction number space-time evolution with robustness against low quality data. *IEEE Transactions on Signal Processing*, 70, 2859–2868.
 > [arxiv:2109.09595](https://arxiv.org/abs/2109.09595)
 
+
 `Python` versions of these codes developed from the present toolbox by J. Du in collaboration with P. Abry and B. Pascal is available in [Covid-R-Estim](https://github.com/juliana-du/Covid-R-estim).
 
 Two demonstration scripts are provided:
 - [`demo_R_World`](https://github.com/bpascal-fr/Covid-Estim-R/blob/master/demo_R_World.m) for the daily estimation of the reproduction number in the 200+ countries monitored by [Johns Hopkins University](https://coronavirus.jhu.edu/) independently;
-- [`demo_R_France`](https://github.com/bpascal-fr/Covid-Estim-R/blob/master/demo_R_France.m) for the daily estimation of the reproduction number in the 104 French departments for which daily infection counts are reported by [Santé Publique France](https://www.data.gouv.fr/fr/datasets/donnees-de-laboratoires-pour-le-depistage-a-compter-du-18-05-2022-si-dep/), including possible multivariate estimation leveraging *spatial* regularization.
+- [`demo_R_France`](https://github.com/bpascal-fr/Covid-Estim-R/blob/master/demo_R_France.m) for the daily estimation of the reproduction number in the 104 French departments for which daily infection counts are reported by [Santé Publique France](https://www.data.gouv.fr/fr/datasets/donnees-de-laboratoires-pour-le-depistage-a-compter-du-18-05-2022-si-dep/), including possible multivariate estimation leveraging *spatial* regularization;
+- [`demo_R_Advanced`](https://github.com/bpascal-fr/Covid-Estim-R/blob/master/demo_R_Advanced.m) for the daily estimation of the reproduction number in the 200+ countries monitored by [Johns Hopkins University](https://coronavirus.jhu.edu/) independently under a more advanced model in which the reproduction number is fixed for two days proposed in:
+> Abry, P., Chevallier, J., Fort, G., & Pascal, B. (2023, December).  Pandemic intensity estimation from Stochastic Approximation-based algorithms. *In 2023 IEEE 9th International Workshop on Computational Advances in Multi-Sensor Adaptive Processing (CAMSAP)* (pp. 356-360). IEEE. [hal-04174245](https://hal.science/hal-04174245).
 
 Animated maps presenting the obtained estimates have been developed by the consortium and are available at [covidatlas.eu](https://www.covidatlas.eu/World/).
 
