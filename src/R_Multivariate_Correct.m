@@ -173,7 +173,7 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
     % Handle trivial estimates
     for c = 1:size(Z,1)
         if sum(isnan(Z(c,:))) == size(Z,2)
-            x(c,:) = 0;
+            x(c,:)    = 0;
         end
     end
 

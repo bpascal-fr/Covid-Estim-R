@@ -47,10 +47,10 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     %          regularizing functional and the parameters of the
     %          minimization algorithm
     %            - dataterm: 'DKL' (by default)  or 'L2'
-    %            - regularization: 'L1' (by default) or 'L12'
-    %            - prior: 'laplacian' (by default) or 'gradient'
-    %            - Ri: initialization of R (constant equal to 1 by default)
-    %            - Oi: initialization of O (constant equal to 0 by default)
+    %            - R1: first component of R for each territory, stored as a C x 1 columns vector (default Z(1)/Zphi(1))
+    %            - R2: second component of R for each territory, stored as a C x 1 column vector (default Z(2)/Zphi(2))
+    %            - Ri: initialization of R (constant equal to 1 by default) of size C x T-2
+    %            - Oi: initialization of O (constant equal to 0 by default) of size C x T-2
     %            - iter: maximal number of iterations (1e6 by default)
     %            - incr: 'R' for increments on iterates, 'obj' increments on objective function
     %            - prec: tolerance for the stopping criterion (1e-7 by default)
@@ -58,34 +58,11 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     %            - win: length of smoothing window (500 by default)
     %
     %
-    % Outputs: - R: estimated regularized reproduction number
+    % Outputs: - R: estimated regularized reproduction number excluding the fixed two first values
     %          - O: estimated correction of misreported counts
     %          - obj: values of the objective function w.r.t iterations
     %          - incr: normalized (smoothed) increments w.r.t iterations
     %          - op: linear direct and adjoint operators involved in the regularization term
-
-    %% DEFAULTS OPTIONS
-
-    if nargin == 4
-        opts     = struct;
-    end
-
-    % Regularizing functional
-    if ~isfield(opts,'dataterm'),       opts.dataterm       = 'DKL'; end
-    if ~isfield(opts,'regularization'), opts.regularization = 'L1'; end
-    if ~isfield(opts,'prior'),          opts.prior          = 'laplacian'; end
-
-    % Minimization algorithm
-    if ~isfield(opts,'Ri'),    opts.Ri   = ones(size(Z)) ; end
-    if ~isfield(opts,'Oi'),    opts.Oi   = zeros(size(Z)) ; end
-    if ~isfield(opts,'iter'),  opts.iter = 1e6 ; end
-    if ~isfield(opts,'incr'),  opts.incr = 'R' ; end
-    if ~isfield(opts,'prec'),  opts.prec = 1e-7 ; end
-    if ~isfield(opts,'stop'),  opts.stop ='LimSup'; end
-    if ~isfield(opts,'win'),   opts.win = 500; end
-
-    % Name of the estimator for displaying waiting bar
-    opts.flag = 'Univariate corrected (U-C)';
 
     %% RESIZE INPUT 
 
@@ -95,44 +72,66 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
         
         Z       = reshape(Z,1,max(d1,d2));
         Zphi    = reshape(Zphi,1,max(d1,d2));
-        opts.Ri = reshape(opts.Ri,1,max(d1,d2));
-        opts.Oi = reshape(opts.Oi,1,max(d1,d2));
 
     end
+
+    %% DEFAULTS OPTIONS
+
+    if nargin == 4
+        opts     = struct;
+    end
+
+    % Regularizing functional
+    if ~isfield(opts,'dataterm'),       opts.dataterm       = 'DKL'; end
+    if ~isfield(opts,'regularization'), opts.regularization = 'L1'; end % no other option implemented for fixed two first components
+    if ~isfield(opts,'prior'),          opts.prior          = 'laplacian'; end % no other option implemented for fixed two first components
+
+    % Default first two values
+    if ~isfield(opts,'R1'), opts.R1      = Z(:,1)./Zphi(:,1) ; end
+    if ~isfield(opts,'R2'), opts.R2      = Z(:,2)./Zphi(:,2) ; end
+
+    % Ensure no division by zero
+    opts.R1(isnan(opts.R1))              = 0;
+    opts.R2(isnan(opts.R2))              = 0;
+
+    % Minimization algorithm
+    if ~isfield(opts,'Ri'),    opts.Ri   = ones(size(Z(:,3:end))) ; end
+    if ~isfield(opts,'Oi'),    opts.Oi   = zeros(size(Z(:,3:end))) ; end
+    if ~isfield(opts,'iter'),  opts.iter = 1e6 ; end
+    if ~isfield(opts,'incr'),  opts.incr = 'R' ; end
+    if ~isfield(opts,'prec'),  opts.prec = 1e-7 ; end
+    if ~isfield(opts,'stop'),  opts.stop ='LimSup'; end
+    if ~isfield(opts,'win'),   opts.win = 500; end
+
+    % Name of the estimator for displaying waiting bar
+    opts.flag = 'Univariate corrected fixed R1, R2 (U-C-12)';
+
 
     %% OBJECTIVE FUNCTION, PROXIMITY OPERATORS AND LINEAR OPERATORS
 
     % number of days
     T                      = size(Zphi,2);
+    Teff                   = T - 2;
 
     % Data fidelity term
     if strcmp(opts.dataterm,'DKL')
 
         opts.mu            = 0;
-        objective.fidelity = @(y,Z) DKLw_outlier(y,Z,Zphi);
-        prox.fidelity      = @(y,Z,tau) prox_DKLw_outlier(y,Z,Zphi,tau);
+        objective.fidelity = @(y,Z) DKLw_outlier(y,Z(:,3:T),Zphi(:,3:T));
+        prox.fidelity      = @(y,Z,tau) prox_DKLw_outlier(y,Z(:,3:T),Zphi(:,3:T),tau);
 
     elseif strcmp(opts.dataterm,'L2')
 
         opts.mu = 0;
-        objective.fidelity = @(y,Z) 0.5*sum(sum((Z - Zphi.*y(:,1:T) - y(:,T+1:end) ).^2));
-        prox.fidelity      = @(y,Z,tau) prox_L2w_outlier(y,Z,Zphi,tau);
+        objective.fidelity = @(y,Z) 0.5*sum(sum((Z(:,3:T) - Zphi(:,3:T).*y(:,1:T) - y(:,T+1:end) ).^2));
+        prox.fidelity      = @(y,Z,tau) prox_L2w_outlier(y,Z(:,3:T),Zphi(:,3:T),tau);
         
     end
 
 
     % Regularization term
-    if strcmp(opts.regularization,'L1')
-
-        prox.regularization      = @(y,tau) [prox_L1(y(:,1:2*T),tau), max(y(:,2*T+1:end),0)];
-        objective.regularization = @(y,tau) tau*sum(sum(abs(y(:,1:2*T))));
-
-    elseif strcmp(opts.regularization,'L12')
-
-        prox.regularization      = @(y,tau) [prox_L12(y(:,1:2*T),tau), max(y(:,2*T+1:end),0)];
-        objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(:,1:2*T).^2,1)));
-
-    end
+    prox.regularization      = @(y,tau) [prox_L1_R1R2(y(:,1:Teff+T),tau,opts.R1,opts.R2), max(y(:,Teff+T+1:end),0)];
+    objective.regularization = @(y,tau) tau*sum(abs(y(:,1) - opts.R2/2 + opts.R1/4)) + tau*sum(abs(y(:,2) + opts.R2/4)) + tau*sum(sum(abs(y(:,3:T+Teff))));
 
 
     % Linear operators
@@ -142,8 +141,8 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     param.type   = '1D';
     param.op     = opts.prior;
 
-    op.direct    = @(x) [opL(x(:,1:T), filter_def, computation, param), lambda_O * x(:,T+1:end), x(:,1:T)];
-    op.adjoint   = @(x) [opLadj(x(:,1:T), filter_def, computation, param) + x(:,2*T+1:end), lambda_O * x(:,T+1:2*T)];
+    op.direct    = @(x) [opL_R1R2(x(:,1:Teff), filter_def, computation, param), lambda_O * x(:,Teff+1:end), x(:,1:Teff)];
+    op.adjoint   = @(x) [opLadj_R1R2(x(:,1:T), filter_def, computation, param) + x(:,T+Teff+1:end), lambda_O * x(:,T+1:T+Teff)];
     opts.normL   = max(lambda_T^2+1,lambda_O^2);
     
 
@@ -163,12 +162,12 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     % Handle trivial estimates
     for c = 1:size(Z,1)
         if sum(isnan(Z(c,:))) == size(Z,2)
-            x(c,:) = 0;
+            x(c,:)    = 0;
         end
     end
 
     % Resize the output to fit input size
-    R                 = reshape(x(:,1:T),d1,d2); 
-    O                 = reshape(x(:,T+1:end),d1,d2); 
+    if d2 == 1,     R = reshape(x(:,1:Teff),d1-2,d2); else,     R = x(:,1:Teff); end
+    if d2 == 1,     O = reshape(x(:,Teff+1:end),d1-2,d2); else, O = x(:,Teff+1:end); end
 
 end

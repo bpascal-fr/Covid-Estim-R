@@ -108,10 +108,10 @@ results.U              = R_U;
 % Pascal et al., 2022, IEEE Trans. Sig. Process.
 
 % Temporal regularization parameter
-lambda_T = 50;
+lambda_T = 3.5;
 
 % Sparsity of the corrective term
-lambda_O = 0.2;
+lambda_O = 0.05;
 
 custom = 0;
 % 0: all parameters of the estimator are set to default values
@@ -192,7 +192,7 @@ results.M              = R_M;
 % 
 
 % Temporal regularization parameter
-lambda_T = 50;
+lambda_T = 3.5;
 
 % Graph discrete gradient operator on connected departments
 G = Laplacian_French_Dept(Departments);
@@ -201,7 +201,7 @@ G = Laplacian_French_Dept(Departments);
 lambda_S = 0.005;
 
 % Sparsity of the corrective term
-lambda_O = 0.2;
+lambda_O = 0.05;
 
 custom = 0;
 % 0: all parameters of the estimator are set to default values

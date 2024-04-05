@@ -176,11 +176,11 @@ function [R,obj,incr,op] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S,opts)
     % Handle trivial estimates
     for c = 1:size(Z,1)
         if sum(isnan(Z(c,:))) == size(Z,2)
-            R(c,:) = 0;
+            R(c,:)      = 0;
         end
     end
     
     % Resize the output to fit input size
-    R                 = reshape(R,d1,d2);
+    R                   = reshape(R,d1,d2);
 
 end
