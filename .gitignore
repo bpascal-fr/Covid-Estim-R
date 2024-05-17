@@ -103,6 +103,7 @@ celerybeat.pid
 
 # Matlab
 *.mat
+*.asv
 
 # Environments
 .env
