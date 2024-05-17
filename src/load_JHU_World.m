@@ -21,7 +21,7 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
     % Inputs:  - User_Countries: vector of strings containing the names of the countries which are to be monitored, 
     %                 e.g., User_Countries = ["France","United Kingdom","Spain"].
     %            If User_Countries = [] all 201 available countries are selected.
-    %          - opts: structure indicated the time period selected by the user containing (optional)
+    %          - opts: structure indicating the time period selected by the user containing (optional)
     %                   opts.LastDay: last day of the time period in format 'YYYY-MM-DD' (default '2023-03-09', latest day possible)
     %                   opts.T: number of day of the time period (default: total number of days available in JHU repository).
     %                   opts.Download: 0 for loading the .csv in folder data, 1 for downloading data from https://coronavirus.jhu.edu/
