@@ -64,6 +64,12 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     %          - incr: normalized (smoothed) increments w.r.t iterations
     %          - op: linear direct and adjoint operators involved in the regularization term
 
+    %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
+
+    scale       = std(Z,[],2);   % scale of infection counts
+    Z           = Z./scale;
+    Zphi        = Zphi./scale;
+
     %% RESIZE INPUT 
 
     [d1,d2]     = size(Z);
@@ -169,6 +175,6 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
 
     % Resize the output to fit input size
     if d2 == 1,     R = reshape(x(:,1:Teff),d1-2,d2); else,     R = x(:,1:Teff); end
-    if d2 == 1,     O = reshape(x(:,Teff+1:end),d1-2,d2); else, O = x(:,Teff+1:end); end
+    if d2 == 1,     O = reshape(x(:,Teff+1:end),d1-2,d2).*scale; else, O = x(:,Teff+1:end).*scale; end
 
 end

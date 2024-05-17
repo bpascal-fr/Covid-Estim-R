@@ -61,6 +61,12 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda,opts)
     %          - incr: normalized (smoothed) increments w.r.t iterations
     %          - op: linear direct and adjoint operators involved in the regularization term
 
+    %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
+
+    scale       = std(Z,[],2);   % scale of infection counts
+    Z           = Z./scale;
+    Zphi        = Zphi./scale;
+    
     %% RESIZE INPUT 
 
     [d1,d2]     = size(Z);
