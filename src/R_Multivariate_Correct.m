@@ -87,6 +87,12 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
     % Name of the estimator for displaying waiting bar
     opts.flag = 'Multivariate corrected (M-C)';
 
+    %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
+
+    scale       = std(Z,[],2);   % scale of infection counts
+    Z           = Z./scale;
+    Zphi        = Zphi./scale;
+
     %% RESIZE INPUT 
 
     [d1,d2]     = size(Z);
@@ -180,6 +186,6 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
 
     % Resize the output to fit input size
     R                 = reshape(x(:,1:T),d1,d2); 
-    O                 = reshape(x(:,T+1:end),d1,d2); 
+    O                 = reshape(x(:,T+1:end),d1,d2).*scale; 
 
 end

@@ -80,6 +80,12 @@ function [R,O,obj,incr,op] = R_Univariate_Correct(Z,Zphi,lambda_T,lambda_O,opts)
     % Name of the estimator for displaying waiting bar
     opts.flag = 'Univariate corrected (U-C)';
 
+    %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
+
+    scale       = std(Z,[],2);   % scale of infection counts
+    Z           = Z./scale;
+    Zphi        = Zphi./scale;
+
     %% RESIZE INPUT 
 
     [d1,d2]     = size(Z);
@@ -162,6 +168,6 @@ function [R,O,obj,incr,op] = R_Univariate_Correct(Z,Zphi,lambda_T,lambda_O,opts)
 
     % Resize the output to fit input size
     R                 = reshape(x(:,1:T),d1,d2); 
-    O                 = reshape(x(:,T+1:end),d1,d2); 
+    O                 = reshape(x(:,T+1:end),d1,d2).*scale; 
 
 end

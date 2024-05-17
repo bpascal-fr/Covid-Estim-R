@@ -81,8 +81,7 @@ custom = 0;
 if custom == 0
     
     % Perform estimation via functional minimization
-    scale              = std(Z,[],2);   % scale of infection counts
-    [R_U,obj_U,incr_U] = R_Univariate(Z./scale,Zphi./scale,lambda_T);
+    [R_U,obj_U,incr_U] = R_Univariate(Z,Zphi,lambda_T);
     
 else
 
@@ -92,8 +91,7 @@ else
     opts_U.iter = 1e5;    % maximal number of iterations
     
     % Perform estimation via functional minimization
-    scale              = std(Z,[],2);   % scale of infection counts
-    [R_U,obj_U,incr_U] = R_Univariate(Z./scale,Zphi./scale,lambda_T,opts_U);
+    [R_U,obj_U,incr_U] = R_Univariate(Z,Zphi,lambda_T,opts_U);
 
 end
 
@@ -120,8 +118,7 @@ custom = 0;
 if custom == 0
     
     % Perform estimation via functional minimization
-    scale                          = std(Z,[],2);   % scale of infection counts
-    [R_U_C,O_U_C,obj_U_C,incr_U_C] = R_Univariate_Correct(Z./scale,Zphi./scale,lambda_T,lambda_O);
+    [R_U_C,O_U_C,obj_U_C,incr_U_C] = R_Univariate_Correct(Z,Zphi,lambda_T,lambda_O);
     
 else
 
@@ -131,8 +128,7 @@ else
     opts_U_C.iter = 1e7;  % maximal number of iterations
 
     % Perform estimation via functional minimization
-    scale                          = std(Z,[],2);   % scale of infection counts
-    [R_U_C,O_U_C,obj_U_C,incr_U_C] = R_Univariate_Correct(Z./scale,Zphi./scale,lambda_T,lambda_O,opts_U_C);
+    [R_U_C,O_U_C,obj_U_C,incr_U_C] = R_Univariate_Correct(Z,Zphi,lambda_T,lambda_O,opts_U_C);
 
 end
 
@@ -163,8 +159,7 @@ custom = 1;
 if custom == 0
     
     % Perform estimation via functional minimization
-    scale              = std(Z,[],2);   % scale of infection counts
-    [R_M,obj_M,incr_M] = R_Multivariate(Z./scale,Zphi./scale,lambda_T,G,lambda_S);
+    [R_M,obj_M,incr_M] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S);
     
 else
 
@@ -174,8 +169,7 @@ else
     opts_M.iter = 1e5;    % maximal number of iterations
 
     % Perform estimation via functional minimization
-    scale              = std(Z,[],2);   % scale of infection counts
-    [R_M,obj_M,incr_M] = R_Multivariate(Z./scale,Zphi./scale,lambda_T,G,lambda_S,opts_M);
+    [R_M,obj_M,incr_M] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S,opts_M);
 
 end
 
@@ -210,8 +204,7 @@ custom = 0;
 if custom == 0
     
     % Perform estimation via functional minimization
-    scale                           = std(Z,[],2);   % scale of infection counts
-    [R_M_C,O_M_C,obj_M_C,incr_M_C] = R_Multivariate_Correct(Z./scale,Zphi./scale,lambda_T,G,lambda_S, lambda_O);
+    [R_M_C,O_M_C,obj_M_C,incr_M_C] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S, lambda_O);
     
 else
 
@@ -221,8 +214,7 @@ else
     opts_M_C.iter = 1e5;    % maximal number of iterations
     
     % Perform estimation via functional minimization
-    scale                           = std(Z,[],2);   % scale of infection counts
-    [R_M_C,O_M_C,obj_M_C,incr_M_C] = R_Multivariate_Correct(Z./scale,Zphi./scale,lambda_T,G,lambda_S,lambda_O,opts_M_C);
+    [R_M_C,O_M_C,obj_M_C,incr_M_C] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,lambda_O,opts_M_C);
 
 end
 

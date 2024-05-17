@@ -76,6 +76,12 @@ function [R,obj,incr,op] = R_Univariate(Z,Zphi,lambda,opts)
 
     % Name of the estimator for displaying waiting bar
     opts.flag = 'Univariate (U)';
+
+    %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
+
+    scale       = std(Z,[],2);   % scale of infection counts
+    Z           = Z./scale;
+    Zphi        = Zphi./scale;
     
     %% RESIZE INPUT 
 

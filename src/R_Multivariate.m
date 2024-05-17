@@ -82,6 +82,12 @@ function [R,obj,incr,op] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S,opts)
     % Name of the estimator for displaying waiting bar
     opts.flag = 'Multivariate (M)';
 
+    %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
+
+    scale       = std(Z,[],2);   % scale of infection counts
+    Z           = Z./scale;
+    Zphi        = Zphi./scale;
+    
     %% RESIZE INPUT 
 
     [d1,d2]     = size(Z);
