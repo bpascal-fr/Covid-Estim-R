@@ -24,8 +24,10 @@ function display_Estim_France(Departments,Estimates,results)
     %                     M: Multivariate piecewise linear in time and piecewise constant in space estimator stored as a matrix of size D x T (if computed)
     %                     M_C: Multivariate piecewise linear in time and piecewise constant in space  estimator with sparse corrective terms stored as a matrix of size D x T (if computed)
 
+    if isempty(Departments),         Departments      = results.Departments.Numbers; end
     if ~isfield(results,'FontSize'), results.FontSize = 22.5; end
-    if isempty(Departments),         Departments = results.Departments.Numbers; end
+    if ~isfield(results,'Dates'),    results.Dates    = 1:size(Z,2); end
+    
 
     AllEstimates = ["MLE","Gamma","U","U-C","M","M-C"];
 

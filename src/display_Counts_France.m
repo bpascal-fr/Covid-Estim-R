@@ -18,9 +18,9 @@ function display_Counts_France(Departments,results)
     %                     Zphi: global infectiousness times series stored as a matrix of size D x T
     %                     FontSize: desired FontSize for the plots
     
-
+    if isempty(Departments),         Departments      = results.Departments.Numbers; end
+    if ~isfield(results,'Dates'),    results.Dates    = 1:size(Z,2); end
     if ~isfield(results,'FontSize'), results.FontSize = 22.5; end
-    if isempty(Departments),         Departments = results.Departments.Numbers; end
 
     for d = 1:length(Departments)
         

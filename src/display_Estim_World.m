@@ -22,9 +22,10 @@ function display_Estim_World(Countries,Estimates,results)
     %                     U: Univariate piecewise linear estimator stored as a matrix of size C x T (if computed)
     %                     U_C: Univariate piecewise linear estimator with sparse corrective terms stored as a matrix of size C x T (if computed)
 
+    if isempty(Countries),           Countries        = results.Countries; end
     if ~isfield(results,'FontSize'), results.FontSize = 22.5; end
-    if isempty(Countries),           Countries = results.Countries; end
-    
+    if ~isfield(results,'Dates'),    results.Dates    = 1:size(Z,2); end
+
     AllEstimates = ["MLE","Gamma","U","U-C"];
 
     % By default plot all available estimates and discard invalid estimates
