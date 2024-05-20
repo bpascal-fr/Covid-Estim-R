@@ -46,9 +46,8 @@ display_Counts_World(DisplayCountries,results) % If DisplayCountries = [] all mo
 %% AGGREGATE DAILY INFECTION COUNTS TO GET WEEKLY INFECTION COUNTS
 
 % Options for daily to weekly infection count aggregation
-opts_week.R         = ones(size(Z));
 opts_week.Dates     = Dates;
-% opts_week.Countries = Countries;
+opts_week.Countries = Countries;
 
 % From daily to weekly infection counts
 [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z, opts_week);
