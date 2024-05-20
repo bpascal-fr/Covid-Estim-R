@@ -1,6 +1,6 @@
-% Turn daily infection counts Z(t) into weekly infection counts by
-% aggregating Z(t) over seven days and compute the associated weekly global
-% infectiousness.
+% Turn multivariate daily infection counts into weekly infection 
+% counts by aggregating counts over seven days in each territory separately
+% and compute the associated  weekly global infectiousness.
 % 
 % The daily discretized serial interval function is also weekly discretized
 % using the left-rectangle integration method with constant step size of 
@@ -13,20 +13,40 @@
 
 function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
 
-    % Inputs: - Z_Day: daily infection count time series
+    % Inputs: - Z_Day: multivariate daily infection count time series 
     %         - opts: parameters of the model, structure containing
     %                   opts.FontSize: font size in the plots (default FontSize = 22.5)
     %                   opts.Dates: abstract dates in datetime format for display
     %                   opts.Phi: daily discretized serial interval function to be used (default: weekly discretized Covid19 serial interval function)
     %                   opts.R: ground truth daily reproduction number
+    %                   opts.Countries: list of the C countries monitored
     %
     %
     % Outputs: - Z_Week: weekly aggregated infection counts
     %          - Zphi_Week: associated global infectiousness
     %          - M_Week: weekly model parameters, structure containing
     %                   M_Week.Phi: weekly discretized serial interval function
-    %                   M_Week.R: ground truth weekly reproduction number (If ground truth daily reproduction number is provided.)
-    %                   M_Week.Dates: dates corresponding to the last day of the week over which infection counts are aggreagted.  (If dates are provided provided.)
+    %                   M_Week.R: weekly reproduction number (If daily reproduction number is provided.)
+    %                   M_Week.Dates: dates corresponding to the last days of the weeks over which infection counts are aggreagted.  (If dates are provided provided.)
+
+    %% RESIZE INPUT 
+
+    [d1,d2]     = size(Z_Day);
+
+    if min(d1,d2) == 1
+        
+        Z_Day   = reshape(Z,1,max(d1,d2));
+
+        if isfield(opts,'R')
+            [e1,e2]     = size(opts.R);
+            if (e1 == d1)&(e2 == d2)
+                opts.R  = reshape(opts.R,1,max(d1,d2));
+            else
+                warning('The reproduction number should have the same has Z. Since it is not the case it will be ignored.')
+            end
+        end
+
+    end
 
     if nargin < 2
 
@@ -34,7 +54,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
         FontSize = 22.5;
 
         % temporal axis
-        Dates     = 1:length(Z_Day);
+        Dates     = 1:size(Z_Day,2);
 
     else
 
@@ -51,10 +71,10 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
 
     % Aggregation of daily infection counts over seven days to get weekly counts
     W            = floor(length(Z_Day)/7);
-    Z_Week       = zeros(1,W);
+    Z_Week       = zeros(size(Z_Day,1),W);
     for w = 1:W
-        tmp_Z         = Z_Day(7*(w-1)+1:7*w);
-        Z_Week(w)     = sum(tmp_Z);
+        tmp_Z         = Z_Day(:,7*(w-1)+1:7*w);
+        Z_Week(:,w)   = sum(tmp_Z,2);
     end
 
     % Corresponding dates
@@ -85,42 +105,58 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
         Phi     = [Phi, zeros(1,add_day)];
     end
     Phi     = Phi/sum(Phi);             % normalize the serial interval function (optional)
+
     % Aggregation over seven days to get a weekly discretized interval function
-    Phi_Week = zeros(1,tau_day/7);
-    for w = 1:4
+    Phi_Week = zeros(tau_day/7,1);
+    for w = 1:tau_day/7
         tmp_Phi       = Phi(7*(w-1)+2:7*w+1);
         Phi_Week(w+1) = sum(tmp_Phi);
     end
 
     % Weekly global infectiousness
-    Zphi_Week  = conv(Z_Week,Phi_Week);
-    Zphi_Week  = Zphi_Week(1:length(Z_Week));
+    [Zphi_Week,Z_Week] = Phi_normal(Z_Week,Phi);
 
-    %% STORE RESULTS
+    % One week cropped because infectiousness not defined at week 1 due to border effect induced by absence of any past count
+    Z_Day              = Z_Day(:,8:end);
+    Dates              = Dates(8:end);
+    Dates_Week         = Dates_Week(2:end);
+   
+
+    %% DISPLAY DAILY VS. WEEKLY INFECTION COUNTS
+
+    for n = 1:size(Z_Week,1)
+        fn                = figure(100 + n); clf
+        q                 = plot(Dates_Week,Z_Week(n,:),'-^','linewidth',1.5,'markersize',10,'color','black');
+        grid on ; hold on
+        ylabel('weekly counts','Interpreter','Latex')
+        yyaxis right
+        p                 = plot(Dates,Z_Day(n,:),'linewidth',1.5,'color',[0.5,0.5,0.5]);
+        ax                = gca;
+        ax.YAxis(2).Color = [0.5,0.5,0.5];
+        ax.YAxis(1).Color = 'black';
+        xlim([Dates(1) Dates(end)])
+        leg             = legend([p,q],'$\mathrm{Z}_t^{\mathrm{Day}}$','$\mathrm{Z}_w^{\mathrm{Week}}$','location','best');
+        leg.Interpreter = 'Latex';
+        leg.Color       = 'none';
+        leg.FontSize    = FontSize;
+        ylabel('daily counts','Interpreter','Latex')
+        if isfield(opts,'Countries')
+            title(strcat("Fom daily to weekly counts in ",opts.Countries(n)),'Interpreter','Latex')
+        else
+            title(strcat("Fom daily to weekly counts in territory ",num2str(n)),'Interpreter','Latex')
+        end
+        set(gca,'ticklabelinterpreter','Latex','fontsize',FontSize,'color','None')
+        fn.Position     = [211 287 943 314];
+    end
+
+     %% STORE RESULTS
+
+    if d2 == 1
+        Z_Week    = reshape(Z_Week,W,d2);
+        Zphi_Week = reshape(Zphi_Week,W,d2);
+    end
 
     M_Week.Phi   = Phi_Week;
     M_Week.Dates = Dates_Week;
-
-    %% DISPLAY DAILY VS. WEEKLY INFECTION COUNTS
-    
-    f4                = figure(4); clf
-    q                 = plot(Dates_Week,Z_Week,'-^','linewidth',1.5,'markersize',10,'color','black');
-    grid on ; hold on
-    % ylim([0 1.1*max(Z_Day)])
-    ylabel('weekly counts','Interpreter','Latex')
-    yyaxis right
-    p                 = plot(Dates,Z_Day,'linewidth',1.5,'color',[0.5,0.5,0.5]);
-    ax                = gca;
-    ax.YAxis(2).Color = [0.5,0.5,0.5];
-    ax.YAxis(1).Color = 'black';
-    xlim([Dates(1) Dates(end)])
-    leg             = legend([p,q],'$\mathrm{Z}_t^{\mathrm{Day}}$','$\mathrm{Z}_w^{\mathrm{Week}}$','location','best');
-    leg.Interpreter = 'Latex';
-    leg.Color       = 'none';
-    leg.FontSize    = FontSize;
-    ylabel('daily counts','Interpreter','Latex')
-    title('Fom daily to weekly infection counts','Interpreter','Latex')
-    set(gca,'ticklabelinterpreter','Latex','fontsize',FontSize,'color','None')
-    f4.Position     = [211 287 943 314];
 
 end
