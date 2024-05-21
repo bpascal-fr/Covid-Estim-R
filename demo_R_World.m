@@ -84,8 +84,7 @@ custom   = 0;
 if custom == 0
     
     % Perform estimation via functional minimization
-    scale              = std(Z,[],2);   % scale of infection counts
-    [R_U,obj_U,incr_U] = R_Univariate(Z./scale,Zphi./scale,lambda_T);
+    [R_U,obj_U,incr_U] = R_Univariate(Z,Zphi,lambda_T);
     
 else
 
@@ -95,8 +94,7 @@ else
     opts_U.iter        = 1e5;    % maximal number of iterations
     
     % Perform estimation via functional minimization
-    scale              = std(Z,[],2);   % scale of infection counts
-    [R_U,obj_U,incr_U] = R_Univariate(Z./scale,Zphi./scale,lambda_T,opts_U);
+    [R_U,obj_U,incr_U] = R_Univariate(Z,Zphi,lambda_T,opts_U);
 
 end
 
