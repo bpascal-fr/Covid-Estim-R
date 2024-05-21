@@ -17,7 +17,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     %         - opts: parameters of the model, structure containing
     %                   opts.FontSize: font size in the plots (default FontSize = 22.5)
     %                   opts.Dates: abstract dates in datetime format for display
-    %                   opts.Phi: daily discretized serial interval function to be used (default: weekly discretized Covid19 serial interval function)
+    %                   opts.Phi: daily discretized serial interval function to be used (default: daily discretized Covid19 serial interval function)
     %                   opts.R: ground truth daily reproduction number
     %                   opts.Countries: list of the C countries monitored
     %
@@ -26,6 +26,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     %          - Zphi_Week: associated global infectiousness
     %          - M_Week: weekly model parameters, structure containing
     %                   M_Week.Phi: weekly discretized serial interval function
+    %                   M_Week.Phi_Day: daily discretized serial interval function
     %                   M_Week.R: weekly reproduction number (If daily reproduction number is provided.)
     %                   M_Week.Dates: dates corresponding to the last days of the weeks over which infection counts are aggreagted.  (If dates are provided provided.)
 
@@ -152,11 +153,12 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
      %% STORE RESULTS
 
     if d2 == 1
-        Z_Week    = reshape(Z_Week,W,d2);
-        Zphi_Week = reshape(Zphi_Week,W,d2);
+        Z_Week     = reshape(Z_Week,W,d2);
+        Zphi_Week  = reshape(Zphi_Week,W,d2);
     end
 
-    M_Week.Phi   = Phi_Week;
-    M_Week.Dates = Dates_Week;
+    M_Week.Phi_Day = Phi(1:end-add_day);
+    M_Week.Phi     = Phi_Week;
+    M_Week.Dates   = Dates_Week;
 
 end

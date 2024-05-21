@@ -136,7 +136,7 @@ else
     opts_U_C_12.iter = 1e7;           % maximal number of iterations
 
     % Perform estimation via functional minimization
-    [R_U_C_12,O_U_C_12,obj_U_C_12,incr_U_C_12] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,opts_U_C);
+    [R_U_C_12,O_U_C_12,obj_U_C_12,incr_U_C_12] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,opts_U_C_12);
 
 end
 
