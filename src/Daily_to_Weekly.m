@@ -108,14 +108,14 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     Phi     = Phi/sum(Phi);             % normalize the serial interval function (optional)
 
     % Aggregation over seven days to get a weekly discretized interval function
-    Phi_Week = zeros(tau_day/7,1);
+    Phi_Week = zeros(1,tau_day/7);
     for w = 1:tau_day/7
         tmp_Phi       = Phi(7*(w-1)+2:7*w+1);
         Phi_Week(w+1) = sum(tmp_Phi);
     end
 
     % Weekly global infectiousness
-    [Zphi_Week,Z_Week] = Phi_normal(Z_Week,Phi);
+    [Zphi_Week,Z_Week] = Phi_normal(Z_Week,Phi_Week);
 
     % One week cropped because infectiousness not defined at week 1 due to border effect induced by absence of any past count
     Z_Day              = Z_Day(:,8:end);
