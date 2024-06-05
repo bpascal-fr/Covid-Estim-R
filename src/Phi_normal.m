@@ -24,11 +24,12 @@
 % reproductive numbers 1 month into the epidemic, Italy, 28 January 
 % to 31 March 2020. Euro Surveillance.
 %
+%
 % Implementation B. Pascal, J. Du and P. Abry
 % March 2024
 
 
-function [Zphi, Z] = Phi_normal(Z,Phi)
+function [Zphi, Z, Phi] = Phi_normal(Z,Phi)
 
     % Inputs:  - Z: new infection counts of size C x T
     %          - Phi: serial interval function (optional) 
@@ -38,6 +39,7 @@ function [Zphi, Z] = Phi_normal(Z,Phi)
     %
     % Outputs: - Zphi: global infectiousness (not defined on first day) hence of size C x T-1
     %          - Z: new infection counts with first day cropped, hence of size C x T-1
+    %          - Phi: serial interval function
     %          
     
 
@@ -69,7 +71,7 @@ function [Zphi, Z] = Phi_normal(Z,Phi)
 
     % compute the convolution of Z by Phi, territory per territory if multivariate Z
     Zphi             = convn(Z,Phi);
-    Zphi             = Zphi(:,1:size(Z,2));
+    Zphi             = Zphi(:,1:size(Z,2)); save('Zphi1','Zphi')
 
     % recompute the first tau_phi elements with normalized Phi
     Phi              = reshape(Phi,length(Phi),1);
