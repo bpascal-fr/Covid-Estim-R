@@ -36,7 +36,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
 
     if min(d1,d2) == 1
         
-        Z_Day   = reshape(Z,1,max(d1,d2));
+        Z_Day   = reshape(Z_Day,1,max(d1,d2));
 
         if isfield(opts,'R')
             [e1,e2]     = size(opts.R);
