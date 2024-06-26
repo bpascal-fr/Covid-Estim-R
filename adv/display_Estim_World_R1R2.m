@@ -50,8 +50,8 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
         results.Zphi = reshape(results.Zphi,1,max(d1,d2));
         if isfield(results,'MLE'),      results.MLE = reshape(results.MLE,1,max(d1,d2));     end
         if isfield(results,'Gamma'),    results.Gamma = reshape(results.Gamma,1,max(d1,d2)); end
-        if isfield(results,'U_12'),     results.U = reshape(results.U_12,1,max(d1,d2));      end
-        if isfield(results,'U_C_12'),   results.U_C = reshape(results.U_C_12,1,max(d1,d2));  end
+        if isfield(results,'U_12'),     results.U = reshape(results.U_12,1,max(d1,d2)-2);      end
+        if isfield(results,'U_C_12'),   results.U_C = reshape(results.U_C_12,1,max(d1,d2)-2);  end
     end
 
     % Number of days
