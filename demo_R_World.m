@@ -37,7 +37,7 @@ results.Z         = Z;
 results.Zphi      = Zphi;
 
 % Countries to be displayed
-DisplayCountries  = ["France","United Kingdom"];
+DisplayCountries  = ["France","United Kingdom","Spain"];
 
 % Display infection counts time series for monitored countries
 results.FontSize  = 22.5; % Adjust font size in plots
@@ -154,7 +154,7 @@ display_Estim_World(DisplayCountries,DisplayEstimates,results) % DisplayCountrie
 
 
 % Countries to be compared
-CompareCountries   = ["France","Canada","Spain"]; 
+CompareCountries   = ["France","United Kingdom","Spain"]; 
 
 % Compare reproduction number estimates in different departments
 compare_Estim_World(CompareCountries,DisplayEstimates,results)
