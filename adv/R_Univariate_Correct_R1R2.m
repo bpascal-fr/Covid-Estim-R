@@ -145,7 +145,6 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
     computation  = 'direct';
     param.lambda = lambda_T;
     param.type   = '1D';
-    param.op     = opts.prior;
 
     op.direct    = @(x) [opL_R1R2(x(:,1:Teff), filter_def, computation, param), lambda_O * x(:,Teff+1:end), x(:,1:Teff)];
     op.adjoint   = @(x) [opLadj_R1R2(x(:,1:T), filter_def, computation, param) + x(:,T+Teff+1:end), lambda_O * x(:,T+1:T+Teff)];

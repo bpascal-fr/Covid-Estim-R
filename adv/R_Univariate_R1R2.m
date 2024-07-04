@@ -141,7 +141,6 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda,opts)
     computation  = 'direct';
     param.lambda = lambda;
     param.type   = '1D';
-    param.op     = opts.prior;
 
     op.direct    = @(x) opL_R1R2(x, filter_def, computation, param);
     op.adjoint   = @(x) opLadj_R1R2(x, filter_def, computation, param);
