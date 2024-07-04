@@ -136,8 +136,8 @@ function [R,O,obj,incr,op] = R_Univariate_Correct_R1R2(Z,Zphi,lambda_T,lambda_O,
 
 
     % Regularization term
-    prox.regularization      = @(y,tau) [prox_L1_R1R2(y(:,1:Teff+T),tau,opts.R1,opts.R2), max(y(:,Teff+T+1:end),0)];
-    objective.regularization = @(y,tau) tau*sum(abs(y(:,1) - opts.R2/2 + opts.R1/4)) + tau*sum(abs(y(:,2) + opts.R2/4)) + tau*sum(sum(abs(y(:,3:T+Teff))));
+    prox.regularization      = @(y,tau) [prox_L1_R1R2(y(:,1:Teff+T),tau,lambda_T*opts.R1,lambda_T*opts.R2), max(y(:,Teff+T+1:end),0)];
+    objective.regularization = @(y,tau) tau*sum(abs(y(:,1) - lambda_T*opts.R2/2 + lambda_T*opts.R1/4)) + tau*sum(abs(y(:,2) + lambda_T*opts.R2/4)) + tau*sum(sum(abs(y(:,3:T+Teff))));
 
 
     % Linear operators

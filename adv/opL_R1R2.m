@@ -27,14 +27,14 @@ function xt = opL_R1R2(x,filter_def, computation,param)
                 if strcmp(computation,'fourier')
                     error('Fourier not available use direct computation.')
                 else
-                    xt = param.lambda*[x(:,3:dim(2))/4 - x(:,2:dim(2)-1)/2 + x(:,1:dim(2)-2)/4,zeros(dim(1),2)];
+                    xt = [x(:,3:dim(2))/4 - x(:,2:dim(2)-1)/2 + x(:,1:dim(2)-2)/4,zeros(dim(1),2)];
                 end
             else
                 error('Multivariate not available.')
             end
         end
         
-        xt = [x(:,1)/4, x(:,2)/4 - x(:,1)/2, xt];
+        xt = param.lambda*[x(:,1)/4, x(:,2)/4 - x(:,1)/2, xt];
     else
         error('Not relevant for 2D data.')
     end
