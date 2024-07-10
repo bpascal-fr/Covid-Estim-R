@@ -19,8 +19,8 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
     %                     Estimates: list of estimators computed
     %                     MLE: Maximum likelihood estimator stored as a matrix of size C x T (if computed)
     %                     Gamma: Maximum a posteriori estimator stored as a matrix of size C x T (if computed)
-    %                     U: Univariate piecewise linear estimator stored as a matrix of size C x T (if computed)
-    %                     U_C: Univariate piecewise linear estimator with sparse corrective terms stored as a matrix of size C x T (if computed)
+    %                     U_12: Univariate piecewise linear estimator stored as a matrix of size C x T (if computed)
+    %                     U_C_12: Univariate piecewise linear estimator with sparse corrective terms stored as a matrix of size C x T (if computed)
 
     if ~isfield(results,'FontSize'), results.FontSize = 22.5; end
     if isempty(Countries),           Countries = results.Countries; end
