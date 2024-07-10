@@ -29,7 +29,7 @@ function [R_Gamma,CI] = R_EpiEstim(Z,Zphi,tau,alpha)
     %          - alpha: coverage of the credibility interval (default: 0.95)
     %
     % Output:  - R_Gamma: estimated maximum a posteriori reproduction number
-    %          - CI_Gamma: alpha credibility interval
+    %          - CI_Gamma: equal-tailed alpha credibility interval
     %                    CI.low: lower bound of the interval
     %                    CI.upp: upper bound of the interval
 
@@ -41,7 +41,9 @@ function [R_Gamma,CI] = R_EpiEstim(Z,Zphi,tau,alpha)
     end
     
     % default credibility interval
-    alpha   = 0.95;
+    if nargin < 4
+        alpha   = 0.95;
+    end
 
     % default parameters of the prior Gamma(a,b)
     a       = 1; 
