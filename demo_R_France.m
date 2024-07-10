@@ -55,7 +55,7 @@ results.Estimates = [results.Estimates, "MLE"];
 results.MLE       = R_MLE;
 
 
-% Maximum A Posteriori with a Gamma prior on R(t) and assuming that
+% Mean A Posteriori with a Gamma prior on R(t) and assuming that
 % R(t) is constant across a window of tau days proposed by
 % Cori et. al, 2013, Am. J. Epidemiol.
 

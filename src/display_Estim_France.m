@@ -18,7 +18,7 @@ function display_Estim_France(Departments,Estimates,results)
     %                     FontSize: desired FontSize for the plots
     %                     Estimates: list of estimators computed
     %                     MLE: Maximum likelihood estimator stored as a matrix of size D x T (if computed)
-    %                     Gamma: Maximum a posteriori estimator stored as a matrix of size D x T (if computed)
+    %                     Gamma: EpiEstim Mean a posteriori estimator stored as a matrix of size D x T (if computed)
     %                     U: Univariate piecewise linear in time estimator stored as a matrix of size D x T (if computed)
     %                     U_C: Univariate piecewise linear in time estimator with sparse corrective terms stored as a matrix of size D x T (if computed)
     %                     M: Multivariate piecewise linear in time and piecewise constant in space estimator stored as a matrix of size D x T (if computed)

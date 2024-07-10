@@ -18,7 +18,7 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
     %                     FontSize: desired FontSize for the plots
     %                     Estimates: list of estimators computed
     %                     MLE: Maximum likelihood estimator stored as a matrix of size C x T (if computed)
-    %                     Gamma: Maximum a posteriori estimator stored as a matrix of size C x T (if computed)
+    %                     Gamma: EpiEstim Mean a posteriori estimator stored as a matrix of size C x T (if computed)
     %                     U_12: Univariate piecewise linear estimator stored as a matrix of size C x T (if computed)
     %                     U_C_12: Univariate piecewise linear estimator with sparse corrective terms stored as a matrix of size C x T (if computed)
 
