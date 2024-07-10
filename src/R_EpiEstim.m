@@ -6,7 +6,7 @@
 % with Zphi(t) = sum_s phi(s) * Z(t-s) where phi is the serial interval
 % function.
 %
-% Maximum A Posteriori with a Gamma prior on R(t) and assuming that R(t) is
+% Mean A Posteriori with a Gamma prior on R(t) and assuming that R(t) is
 % constant across the past tau days:
 %    
 %         R_EpiEstim(t) = ( a + <Z>_tau(t)) / (1/b + <Zphi>_tau(t))
