@@ -56,7 +56,6 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
 
     % Number of days
     T     = size(results.Z,2);
-    Teff  = T-2;
 
     for n = 1:length(Countries)
 

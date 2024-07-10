@@ -46,25 +46,26 @@ function [R_Gamma,CI] = R_EpiEstim(Z,Zphi,tau,alpha)
     end
 
     % default parameters of the prior Gamma(a,b)
-    a       = 1; 
-    b       = 5; 
+    a        = 1; 
+    b        = 5; 
 
     % define the window extracting past tau days
-    win     = zeros(1,2*tau-1); win(end-tau+1:end) = 1;
+    win      = zeros(1,2*tau-1); win(end-tau+1:end) = 1;
 
     % compute the cumulative <Z>_tau and <Zphi>_tau
-    sZ      = convn(Z,win,'same');
-    sZphi   = convn(Zphi,win,'same');
+    sZ       = convn(Z,win,'same');
+    sZphi    = convn(Zphi,win,'same');
 
     % explicit expression of the Maximum A Posteriori
-    shape   = (a+sZ);
-    scale   = 1./(1/b + sZphi);
-    R_Gamma = scale.*shape;
+    shape    = (a+sZ);
+    scale    = 1./(1/b + sZphi);
+    R_Gamma  = scale.*shape;
 
     % compute the alpha credibility interval
-    delta   = (1-alpha)/2;
-    CI.low  = gaminv(delta,shape,scale);
-    CI.upp  = gaminv(1-delta,shape,scale);
+    delta    = (1-alpha)/2;
+    CI.low   = gaminv(delta,shape,scale);
+    CI.upp   = gaminv(1-delta,shape,scale);
+    CI.alpha = alpha;
 
     % Resize output
     R_Gamma = reshape(R_Gamma,d1,d2);
