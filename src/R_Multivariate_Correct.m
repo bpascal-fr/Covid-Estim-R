@@ -55,6 +55,7 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
     %            - prec: tolerance for the stopping criterion (1e-7 by default)
     %            - stop: 'LimSup' (by default) smoothed increments over win past iterates, or 'Primal' pointwise increments
     %            - win: length of smoothing window (500 by default)
+    %            - flag: if 'none' not progression bar (optional)
     %
     %
     % Outputs: - R: estimated regularized reproduction number
@@ -85,8 +86,12 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
     if ~isfield(opts,'win'),   opts.win = 500; end
 
     % Name of the estimator for displaying waiting bar
-    opts.flag = 'Multivariate corrected (M-C)';
-
+    if ~strcmp(opts.flag,'none')
+        opts.flag = 'Multivariate corrected (M-C)';
+    else
+        opts = rmfield(opts,'flag');
+    end
+    
     %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
 
     scale       = std(Z,[],2);   % scale of infection counts

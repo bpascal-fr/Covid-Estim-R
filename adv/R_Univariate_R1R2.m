@@ -54,6 +54,7 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda,opts)
     %            - prec: tolerance for the stopping criterion (1e-7 by default)
     %            - stop: 'LimSup' (by default) smoothed increments over win past iterates, or 'Primal' pointwise increments
     %            - win: length of smoothing window (500 by default)
+    %            - flag: if 'none' not progression bar (optional)
     %
     %
     % Outputs: - R: estimated regularized reproduction number excluding the fixed two first values
@@ -106,7 +107,11 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda,opts)
     if ~isfield(opts,'win'),   opts.win = 500; end
 
     % Name of the estimator for displaying waiting bar
-    opts.flag = 'Univariate, fixed R1, R2 (U-12)';
+    if ~strcmp(opts.flag,'none')
+        opts.flag = 'Univariate, fixed R1, R2 (U-12)';
+    else
+        opts = rmfield(opts,'flag');
+    end
 
 
     %% OBJECTIVE FUNCTION, PROXIMITY OPERATORS AND LINEAR OPERATORS
