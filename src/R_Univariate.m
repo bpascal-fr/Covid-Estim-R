@@ -76,12 +76,14 @@ function [R,obj,incr,op] = R_Univariate(Z,Zphi,lambda,opts)
     if ~isfield(opts,'win'),   opts.win = 500; end
 
     % Name of the estimator for displaying waiting bar
-    if isfield(opts.flag)
+    if isfield(opts,'flag')
         if ~strcmp(opts.flag,'none')
             opts.flag = 'Univariate (U)';
         else
             opts = rmfield(opts,'flag');
         end
+    else
+        opts.flag = 'Univariate (U)';
     end
 
     %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS

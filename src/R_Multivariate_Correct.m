@@ -86,12 +86,14 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
     if ~isfield(opts,'win'),   opts.win = 500; end
 
     % Name of the estimator for displaying waiting bar
-    if isfield(opts.flag)
+    if isfield(opts,'flag')
         if ~strcmp(opts.flag,'none')
             opts.flag = 'Multivariate corrected (M-C)';
         else
             opts = rmfield(opts,'flag');
         end
+    else
+        opts.flag = 'Multivariate corrected (M-C)';
     end
     
     %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS
