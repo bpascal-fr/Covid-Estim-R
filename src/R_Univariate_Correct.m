@@ -79,10 +79,12 @@ function [R,O,obj,incr,op] = R_Univariate_Correct(Z,Zphi,lambda_T,lambda_O,opts)
     if ~isfield(opts,'win'),   opts.win = 500; end
 
     % Name of the estimator for displaying waiting bar
-    if ~strcmp(opts.flag,'none')
-        opts.flag = 'Univariate corrected (U-C)';
-    else
-        opts = rmfield(opts,'flag');
+    if isfield(opts.flag)
+        if ~strcmp(opts.flag,'none')
+            opts.flag = 'Univariate corrected (U-C)';
+        else
+            opts = rmfield(opts,'flag');
+        end
     end
 
     %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS

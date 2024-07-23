@@ -64,31 +64,32 @@ function display_Estim_World(Countries,Estimates,results)
 
         else
 
+            ine             = find(strcmp(results.Countries,Countries(n)),1);
             f2              = figure(2000 + n); clf
-            plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
+            plot(results.Dates,ones(size(results.Z(ine,:))),'k-','LineWidth',1);
             grid on; hold on
             Q               = [];
             iEst            = 1;
             if ~isempty(find(strcmp(Estimates,'MLE'),1))  && ~isempty(find(strcmp(results.Estimates,'MLE'),1))
-                q1          = plot(results.Dates, results.MLE(n,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
+                q1          = plot(results.Dates, results.MLE(ine,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
                 Q           = [Q, q1];
                 L{iEst}     = '$\mathrm{R}^{\mathrm{MLE}}_t$';
                 iEst        = iEst + 1;
             end
             if ~isempty(find(strcmp(Estimates,'Gamma'),1)) && ~isempty(find(strcmp(results.Estimates,'Gamma'),1))
-                q2          = plot(results.Dates, results.Gamma(n,:),'-','linewidth',2,'color',[0,0.5,0]) ;
+                q2          = plot(results.Dates, results.Gamma(ine,:),'-','linewidth',2,'color',[0,0.5,0]) ;
                 Q           = [Q, q2];
                 L{iEst}     = '$\mathrm{R}_{\tau,t}^\Gamma$';
                 iEst        = iEst + 1;
             end
             if ~isempty(find(strcmp(Estimates,'U'),1)) && ~isempty(find(strcmp(results.Estimates,'U'),1))
-                q3          = plot(results.Dates, results.U(n,:),'-','linewidth',2,'color','blue') ;
+                q3          = plot(results.Dates, results.U(ine,:),'-','linewidth',2,'color','blue') ;
                 Q           = [Q, q3];
                 L{iEst}     = '$\mathrm{R}^{\mathrm{U}}_t$';
                 iEst        = iEst + 1;
             end
             if ~isempty(find(strcmp(Estimates,'U-C'),1)) && ~isempty(find(strcmp(results.Estimates,'U-C'),1))
-                q4          = plot(results.Dates, results.U_C(n,:),'-','linewidth',2,'color','red') ;
+                q4          = plot(results.Dates, results.U_C(ine,:),'-','linewidth',2,'color','red') ;
                 Q           = [Q, q4];
                 L{iEst}     = '$\mathrm{R}^{\mathrm{U-C}}_t$';
                 iEst        = iEst + 1;
@@ -113,9 +114,9 @@ function display_Estim_World(Countries,Estimates,results)
 
                 f3 = figure(3000 + n); clf
                 subplot(211)
-                p               = plot(results.Dates, results.Z(n,:),'-','linewidth',2,'color','black') ;
+                p               = plot(results.Dates, results.Z(ine,:),'-','linewidth',2,'color','black') ;
                 grid on ; hold on
-                q               = plot(results.Dates, results.Zphi(n,:),'-.','linewidth',2,'color','black') ;
+                q               = plot(results.Dates, results.Zphi(ine,:),'-.','linewidth',2,'color','black') ;
                 leg             = legend([p,q],'$\mathrm{Z}_t$','$\Phi_t^{\mathrm{Z}}$','location','best');
                 leg.Interpreter = 'Latex';
                 leg.Color       = 'none';
@@ -127,30 +128,30 @@ function display_Estim_World(Countries,Estimates,results)
                 ylabel('infection counts','Interpreter','Latex')
                 set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
                 subplot(212)
-                plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
+                plot(results.Dates,ones(size(results.Z(ine,:))),'k-','LineWidth',1);
                 grid on; hold on
                 Q               = [];
                 iEst            = 1;
                 if ~isempty(find(strcmp(Estimates,'MLE'),1))  && ~isempty(find(strcmp(results.Estimates,'MLE'),1))
-                    q1          = plot(results.Dates, results.MLE(n,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
+                    q1          = plot(results.Dates, results.MLE(ine,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
                     Q           = [Q, q1];
                     L{iEst}     = '$\mathrm{R}^{\mathrm{MLE}}_t$';
                     iEst        = iEst + 1;
                 end
                 if ~isempty(find(strcmp(Estimates,'Gamma'),1)) && ~isempty(find(strcmp(results.Estimates,'Gamma'),1))
-                    q2          = plot(results.Dates, results.Gamma(n,:),'-','linewidth',2,'color',[0,0.5,0]) ;
+                    q2          = plot(results.Dates, results.Gamma(ine,:),'-','linewidth',2,'color',[0,0.5,0]) ;
                     Q           = [Q, q2];
                     L{iEst}     = '$\mathrm{R}_{\tau,t}^\Gamma$';
                     iEst        = iEst + 1;
                 end
                 if ~isempty(find(strcmp(Estimates,'U'),1)) && ~isempty(find(strcmp(results.Estimates,'U'),1))
-                    q3          = plot(results.Dates, results.U(n,:),'-','linewidth',2,'color','blue') ;
+                    q3          = plot(results.Dates, results.U(ine,:),'-','linewidth',2,'color','blue') ;
                     Q           = [Q, q3];
                     L{iEst}     = '$\mathrm{R}^{\mathrm{U}}_t$';
                     iEst        = iEst + 1;
                 end
                 if ~isempty(find(strcmp(Estimates,'U-C'),1)) && ~isempty(find(strcmp(results.Estimates,'U-C'),1))
-                    q4          = plot(results.Dates, results.U_C(n,:),'-','linewidth',2,'color','red') ;
+                    q4          = plot(results.Dates, results.U_C(ine,:),'-','linewidth',2,'color','red') ;
                     Q           = [Q, q4];
                     L{iEst}     = '$\mathrm{R}^{\mathrm{U-C}}_t$';
                     iEst        = iEst + 1;

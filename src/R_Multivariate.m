@@ -81,10 +81,12 @@ function [R,obj,incr,op] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S,opts)
     if ~isfield(opts,'win'),   opts.win = 500; end
 
     % Name of the estimator for displaying waiting bar
-    if ~strcmp(opts.flag,'none')
-        opts.flag = 'Multivariate (M)';
-    else
-        opts = rmfield(opts,'flag');
+    if isfield(opts.flag)
+        if ~strcmp(opts.flag,'none')
+            opts.flag = 'Multivariate (M)';
+        else
+            opts = rmfield(opts,'flag');
+        end
     end
 
     %% NORMALIZE INFECTION COUNTS AND INFECTIOUSNESS

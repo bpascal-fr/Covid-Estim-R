@@ -27,10 +27,11 @@ function display_Counts_World(Countries,results)
         if ~sum(contains(results.Countries,Countries(n)))
             warning(strcat(Countries(n)," was not analysed, either because it was not found in JHU repository or because it has not been indicated by the user in the preamble. Hence, ",Countries(n)," will not appear in the plots."))
         else
-            f1              = figure(1000 + n); clf
-            p               = plot(results.Dates, results.Z(n,:),'-','linewidth',2,'color','black') ;
+            ine             = find(strcmp(results.Countries,Countries(n)),1);
+            f1              = figure(1000 + n); clf; 
+            p               = plot(results.Dates, results.Z(ine,:),'-','linewidth',2,'color','black') ;
             grid on ; hold on
-            q               = plot(results.Dates, results.Zphi(n,:),'-.','linewidth',2,'color','black') ;
+            q               = plot(results.Dates, results.Zphi(ine,:),'-.','linewidth',2,'color','black') ;
             leg             = legend([p,q],'$\mathrm{Z}_t$','$\Phi_t^{\mathrm{Z}}$','location','best');
             leg.Interpreter = 'Latex';
             leg.Color       = 'none';
