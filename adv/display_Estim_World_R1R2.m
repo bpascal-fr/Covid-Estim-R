@@ -111,8 +111,8 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
 
 
 
-                f3 = figure(3000 + n); clf
-                subplot(211)
+                f3  = figure(3000 + n); clf
+                sp1 = subplot(211);
                 p               = plot(results.Dates, results.Z(n,:),'-','linewidth',2,'color','black') ;
                 grid on ; hold on
                 q               = plot(results.Dates, results.Zphi(n,:),'-.','linewidth',2,'color','black') ;
@@ -126,7 +126,7 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
                 title(Countries(n),'Interpreter','Latex')
                 ylabel('infection counts','Interpreter','Latex')
                 set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
-                subplot(212)
+                sp2 = subplot(212);
                 plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
                 grid on; hold on
                 Q               = [];
@@ -163,6 +163,8 @@ function display_Estim_World_R1R2(Countries,Estimates,results)
                 ylabel('reproduction number','Interpreter','Latex')
                 f3.Position     = [211 87 943 710];
 
+                linkaxes([sp1,sp2],'x')
+                
             end
         end
 

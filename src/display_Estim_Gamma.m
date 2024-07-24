@@ -62,8 +62,8 @@ function display_Estim_Gamma(Countries,Estimates,results)
 
         else
 
-            f4 = figure(4000 + n); clf
-            subplot(211)
+            f4  = figure(4000 + n); clf
+            sp1 = subplot(211);
             plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
             grid on; hold on
             Q               = [];
@@ -105,7 +105,7 @@ function display_Estim_Gamma(Countries,Estimates,results)
 
                 clear L
                 
-                subplot(212)
+                sp2 = subplot(212);
                 plot(results.Dates,zeros(size(results.Z(n,:))),'-','LineWidth',2,'color',[0,0.5,0]);
                 grid on; hold on
                 Q               = [];
@@ -124,6 +124,8 @@ function display_Estim_Gamma(Countries,Estimates,results)
                 title(Countries(n),'Interpreter','Latex')
                 ylabel('credibility interval','Interpreter','Latex')
                 f4.Position     = [211 87 943 710];
+
+                linkaxes([sp1,sp2],'x')
 
             end
         end
