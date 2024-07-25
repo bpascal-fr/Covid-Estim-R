@@ -62,74 +62,121 @@ function display_Estim_Gamma(Countries,Estimates,results)
 
         else
 
-            f4  = figure(4000 + n); clf
-            sp1 = subplot(211);
-            plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
-            grid on; hold on
-            Q               = [];
-            iEst            = 1;
-            if ~isempty(find(strcmp(Estimates,'MLE'),1))  && ~isempty(find(strcmp(results.Estimates,'MLE'),1))
-                q1          = plot(results.Dates, results.MLE(n,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
-                Q           = [Q, q1];
-                L{iEst}     = '$\mathrm{R}^{\mathrm{MLE}}_t$';
-                iEst        = iEst + 1;
-            end
-            if ~isempty(find(strcmp(Estimates,'Gamma'),1)) && ~isempty(find(strcmp(results.Estimates,'Gamma'),1))
-                q2          = plot(results.Dates, results.Gamma(n,:),'-','linewidth',2,'color',[0,0.5,0]) ;
-                Q           = [Q, q2];
-                L{iEst}     = '$\mathrm{R}_{\tau,t}^\Gamma$';
-                iEst        = iEst + 1;
-            end
             if ~isempty(find(strcmp(Estimates,'CI'),1)) && ~isempty(find(strcmp(results.Estimates,'CI'),1))
-                q3          = fill([results.Dates, fliplr(results.Dates)], [results.CI.upp(n,:), fliplr(results.CI.low(n,:))],'-','linewidth',2,'FaceColor',[0,0.5,0],'FaceAlpha',0.25,'EdgeColor','None') ;
-                Q           = [Q, q3];
-                L{iEst}     = ['$',num2str(100*results.CI.alpha,2),'\%$-CI'];
-                iEst        = iEst + 1;
-            end
-            if isempty(Q)
 
-                close(2000 + n)
-                warning('No valid estimator name in the list. R estimates not displayed. Valid estimators names are: MLE, Gamma, U and U-C.')
-
-            else
-
-                leg             = legend(Q,L,'location','best');
-                leg.Interpreter = 'Latex'; leg.Color ='none'; leg.FontSize = results.FontSize;
-                set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
-                VX              = [results.Dates(1) results.Dates(end)] ;
-                xlim(VX)
-                xticklabels({})
-                title(Countries(n),'Interpreter','Latex')
-                VY              = [0, 3]; ylim(VY)
-                ylabel('reproduction number','Interpreter','Latex')
-
-                clear L
-                
-                sp2 = subplot(212);
-                plot(results.Dates,zeros(size(results.Z(n,:))),'-','LineWidth',2,'color',[0,0.5,0]);
+                f4  = figure(4000 + n); clf
+                sp1 = subplot(211);
+                plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
                 grid on; hold on
                 Q               = [];
                 iEst            = 1;
-                if ~isempty(find(strcmp(Estimates,'CI'),1)) && ~isempty(find(strcmp(results.Estimates,'CI'),1))
-                    q3          = fill([results.Dates, fliplr(results.Dates)], [results.CI.upp(n,:)-results.Gamma(n,:), fliplr(results.CI.low(n,:)-results.Gamma(n,:))],'-','linewidth',2,'FaceColor',[0,0.5,0],'FaceAlpha',0.25,'EdgeColor','None') ;
-                    Q           = [Q, q3];
-                    L{iEst}     = ['$',num2str(100*results.CI.alpha,2),'\%$-CI - $\mathrm{R}_{\tau,t}^\Gamma$'];
+                if ~isempty(find(strcmp(Estimates,'MLE'),1))  && ~isempty(find(strcmp(results.Estimates,'MLE'),1))
+                    q1          = plot(results.Dates, results.MLE(n,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
+                    Q           = [Q, q1];
+                    L{iEst}     = '$\mathrm{R}^{\mathrm{MLE}}_t$';
                     iEst        = iEst + 1;
                 end
-                leg             = legend(Q,L,'location','best');
-                leg.Interpreter = 'Latex'; leg.Color ='none'; leg.FontSize = results.FontSize;
-                set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
-                VX              = [results.Dates(1) results.Dates(end)] ;
-                xlim(VX)
-                title(Countries(n),'Interpreter','Latex')
-                ylabel('credibility interval','Interpreter','Latex')
-                f4.Position     = [211 87 943 710];
+                if ~isempty(find(strcmp(Estimates,'Gamma'),1)) && ~isempty(find(strcmp(results.Estimates,'Gamma'),1))
+                    q2          = plot(results.Dates, results.Gamma(n,:),'-','linewidth',2,'color',[0,0.5,0]) ;
+                    Q           = [Q, q2];
+                    L{iEst}     = '$\mathrm{R}_{\tau,t}^\Gamma$';
+                    iEst        = iEst + 1;
+                end
+                if ~isempty(find(strcmp(Estimates,'CI'),1)) && ~isempty(find(strcmp(results.Estimates,'CI'),1))
+                    q3          = fill([results.Dates, fliplr(results.Dates)], [results.CI.upp(n,:), fliplr(results.CI.low(n,:))],'-','linewidth',2,'FaceColor',[0,0.5,0],'FaceAlpha',0.25,'EdgeColor','None') ;
+                    Q           = [Q, q3];
+                    L{iEst}     = ['$',num2str(100*results.CI.alpha,2),'\%$-CI'];
+                    iEst        = iEst + 1;
+                end
+                if isempty(Q)
 
-                linkaxes([sp1,sp2],'x')
+                    close(2000 + n)
+                    warning('No valid estimator name in the list. R estimates not displayed. Valid estimators names are: MLE, Gamma, U and U-C.')
 
+                else
+
+                    leg             = legend(Q,L,'location','best');
+                    leg.Interpreter = 'Latex'; leg.Color ='none'; leg.FontSize = results.FontSize;
+                    set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
+                    VX              = [results.Dates(1) results.Dates(end)] ;
+                    xlim(VX)
+                    xticklabels({})
+                    title(Countries(n),'Interpreter','Latex')
+                    VY              = [0, 3]; ylim(VY)
+                    ylabel('reproduction number','Interpreter','Latex')
+
+                    clear L
+
+                    sp2 = subplot(212);
+                    plot(results.Dates,zeros(size(results.Z(n,:))),'-','LineWidth',2,'color',[0,0.5,0]);
+                    grid on; hold on
+                    Q               = [];
+                    iEst            = 1;
+                    if ~isempty(find(strcmp(Estimates,'CI'),1)) && ~isempty(find(strcmp(results.Estimates,'CI'),1))
+                        q3          = fill([results.Dates, fliplr(results.Dates)], [results.CI.upp(n,:)-results.Gamma(n,:), fliplr(results.CI.low(n,:)-results.Gamma(n,:))],'-','linewidth',2,'FaceColor',[0,0.5,0],'FaceAlpha',0.25,'EdgeColor','None') ;
+                        Q           = [Q, q3];
+                        L{iEst}     = ['$',num2str(100*results.CI.alpha,2),'\%$-CI - $\mathrm{R}_{\tau,t}^\Gamma$'];
+                        iEst        = iEst + 1;
+                    end
+                    leg             = legend(Q,L,'location','best');
+                    leg.Interpreter = 'Latex'; leg.Color ='none'; leg.FontSize = results.FontSize;
+                    set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
+                    VX              = [results.Dates(1) results.Dates(end)] ;
+                    xlim(VX)
+                    title(Countries(n),'Interpreter','Latex')
+                    ylabel('credibility interval','Interpreter','Latex')
+                    f4.Position     = [211 87 943 710];
+
+                    linkaxes([sp1,sp2],'x')
+
+                end
+
+            else
+
+                f4  = figure(4000 + n); clf
+                plot(results.Dates,ones(size(results.Z(n,:))),'k-','LineWidth',1);
+                grid on; hold on
+                Q               = [];
+                iEst            = 1;
+                if ~isempty(find(strcmp(Estimates,'MLE'),1))  && ~isempty(find(strcmp(results.Estimates,'MLE'),1))
+                    q1          = plot(results.Dates, results.MLE(n,:),'-','linewidth',2,'color',[0.7,0.7,0.7]) ;
+                    Q           = [Q, q1];
+                    L{iEst}     = '$\mathrm{R}^{\mathrm{MLE}}_t$';
+                    iEst        = iEst + 1;
+                end
+                if ~isempty(find(strcmp(Estimates,'Gamma'),1)) && ~isempty(find(strcmp(results.Estimates,'Gamma'),1))
+                    q2          = plot(results.Dates, results.Gamma(n,:),'-','linewidth',2,'color',[0,0.5,0]) ;
+                    Q           = [Q, q2];
+                    L{iEst}     = '$\mathrm{R}_{\tau,t}^\Gamma$';
+                    iEst        = iEst + 1;
+                end
+                if ~isempty(find(strcmp(Estimates,'CI'),1)) && ~isempty(find(strcmp(results.Estimates,'CI'),1))
+                    q3          = fill([results.Dates, fliplr(results.Dates)], [results.CI.upp(n,:), fliplr(results.CI.low(n,:))],'-','linewidth',2,'FaceColor',[0,0.5,0],'FaceAlpha',0.25,'EdgeColor','None') ;
+                    Q           = [Q, q3];
+                    L{iEst}     = ['$',num2str(100*results.CI.alpha,2),'\%$-CI'];
+                    iEst        = iEst + 1;
+                end
+                if isempty(Q)
+
+                    close(2000 + n)
+                    warning('No valid estimator name in the list. R estimates not displayed. Valid estimators names are: MLE, Gamma, U and U-C.')
+
+                else
+
+                    leg             = legend(Q,L,'location','best');
+                    leg.Interpreter = 'Latex'; leg.Color ='none'; leg.FontSize = results.FontSize;
+                    set(gca,'ticklabelinterpreter','Latex','fontsize',results.FontSize,'color','None')
+                    VX              = [results.Dates(1) results.Dates(end)] ;
+                    xlim(VX)
+                    xticklabels({})
+                    title(Countries(n),'Interpreter','Latex')
+                    VY              = [0, 3]; ylim(VY)
+                    ylabel('reproduction number','Interpreter','Latex')
+                    f4.Position     = [211 287 943 314];
+
+                end
             end
+
         end
 
     end
-
-end
