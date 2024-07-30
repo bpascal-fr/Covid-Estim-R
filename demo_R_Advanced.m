@@ -129,9 +129,9 @@ if custom == 0
 else
 
     % Customized settings of the variational estimator
-    opts_U_12.R1   = R_MLE(:,1);      % initialization
-    opts_U_12.R2   = R_MLE(:,2);      % initialization
-    opts_U_12.Ri   = R_MLE(:,3:end);  % initialization
+    opts_U_C_12.R1   = R_MLE(:,1);      % initialization
+    opts_U_C_12.R2   = R_MLE(:,2);      % initialization
+    opts_U_C_12.Ri   = R_MLE(:,3:end);  % initialization
     opts_U_C_12.prec = 1e-7;          % required precision on increments for convergence
     opts_U_C_12.iter = 1e7;           % maximal number of iterations
 
