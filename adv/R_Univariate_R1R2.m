@@ -54,7 +54,7 @@ function [R,obj,incr,op] = R_Univariate_R1R2(Z,Zphi,lambda,opts)
     %            - prec: tolerance for the stopping criterion (1e-7 by default)
     %            - stop: 'LimSup' (by default) smoothed increments over win past iterates, or 'Primal' pointwise increments
     %            - win: length of smoothing window (500 by default)
-    %            - flag: if 'none' not progression bar (optional)
+    %            - flag: if 'none' no progression bar (optional)
     %
     %
     % Outputs: - R: estimated regularized reproduction number excluding the fixed two first values
