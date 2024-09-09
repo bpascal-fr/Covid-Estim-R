@@ -1,4 +1,4 @@
-% Compute the global infectiousness time seroes independently for each
+% Compute the global infectiousness time series independently for each
 % country monitored and during the entire time period:
 %
 %    Zphi(t) = sum_s Phi(s) * Z(t-s) for s = 1, ..., tau_phi,
