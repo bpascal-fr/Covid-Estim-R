@@ -37,7 +37,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     %                   M_Week.Phi: weekly discretized serial interval function
     %                   M_Week.Phi_Day: daily discretized serial interval function
     %                   M_Week.R: weekly reproduction number (If daily reproduction number is provided.)
-    %                   M_Week.Dates: dates corresponding to the last days of the weeks over which infection counts are aggreagted.  (If dates are provided provided.)
+    %                   M_Week.Dates: dates corresponding to the last days of the weeks over which infection counts are aggreagted.  (If dates are provided.)
 
     %% RESIZE INPUT 
 
