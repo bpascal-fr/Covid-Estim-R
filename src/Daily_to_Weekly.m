@@ -6,6 +6,13 @@
 % using the left-rectangle integration method with constant step size of 
 % one day length.
 %
+% References
+%
+% - Nash, R. K., Bhatt, S., Cori, A., & Nouvellet, P. (2023). Estimating the 
+% epidemic reproduction number from temporally aggregated incidence data: 
+% A statistical modelling approach and software tool. 
+% PLOS Computational Biology, 19(8), e1011439.
+%
 % - Pascal, B., Vaiter, S. (2024, September). Risk Estimate under a
 % Nonstationary Autoregressive Model for Data-Driven Reproduction Number
 % Estimation. Preprint. arXiv:.
