@@ -6,7 +6,9 @@
 % using the left-rectangle integration method with constant step size of 
 % one day length.
 %
-% - XXX
+% - Pascal, B., Vaiter, S. (2024, September). Risk Estimate under a
+% Nonstationary Autoregressive Model for Data-Driven Reproduction Number
+% Estimation. Preprint. arXiv:.
 %
 % B. Pascal and P. Abry, May 2024.
 
