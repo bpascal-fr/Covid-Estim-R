@@ -36,7 +36,7 @@ function [Z_User, Zphi_User, Dates_User, Departments_User] = load_SIDEP_France(D
     %                    Indices: index of each department in the storage from 1 to D
 
 
-    if nargin < 1
+    if nargin < 2
 
         % Last day of the time period
         ChosenTime = [2023,06,27];
