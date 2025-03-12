@@ -157,7 +157,7 @@ function [R,obj,incr,op] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S,opts)
             objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(1:C,:).^2,1))) + tau*sum(sum(abs(y(C+1:end,:))));
         elseif strcmp(opts.spatial,'L2')
             prox.regularization      = @(y,tau) [prox_L12(y(1:C,:),tau); prox_L2(y(C+1:end,:),tau)];
-            objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(1:C,:).^2,1))) + tau*sum(sum(y(C+1:end,:).^2));
+            objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(1:C,:).^2,1))) + 1/2*tau*sum(sum(y(C+1:end,:).^2));
         end
 
     end
@@ -178,10 +178,10 @@ function [R,obj,incr,op] = R_Multivariate(Z,Zphi,lambda_T,G,lambda_S,opts)
     %% RUN THE ALGORITHM AND PREPARE OUTPUTS
 
     % store the initialization of the primal-dual algorithm in correct form
-    opts.xi             = opts.Ri;
+    opts.xi            = opts.Ri;
 
     % Minimization of the functional with Chambolle-Pock algorithm
-    [R,obj,incr]      = PD_ChambollePock_Covid(Z, objective, op, prox, opts);
+    [R,obj,incr]       = PD_ChambollePock_Covid(Z, objective, op, prox, opts);
 
     % Linear operator involved in the regularization
     param.lambda       = 1;

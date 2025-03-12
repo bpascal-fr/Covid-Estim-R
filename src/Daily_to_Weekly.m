@@ -38,6 +38,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     %                   M_Week.Phi_Day: daily discretized serial interval function
     %                   M_Week.R: weekly reproduction number (If daily reproduction number is provided.)
     %                   M_Week.Dates: dates corresponding to the last days of the weeks over which infection counts are aggreagted.  (If dates are provided.)
+    %                   M_Week.Countries: list of the C countries monitored
 
     %% RESIZE INPUT 
 
@@ -162,12 +163,16 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
      %% STORE RESULTS
 
     if d2 == 1
-        Z_Week     = reshape(Z_Week,W,d2);
-        Zphi_Week  = reshape(Zphi_Week,W,d2);
+        Z_Week       = reshape(Z_Week,W,d2);
+        Zphi_Week    = reshape(Zphi_Week,W,d2);
     end
 
-    M_Week.Phi_Day = Phi(1:end-add_day);
-    M_Week.Phi     = Phi_Week;
-    M_Week.Dates   = Dates_Week;
+    M_Week.Phi_Day   = Phi(1:end-add_day);
+    M_Week.Phi       = Phi_Week;
+    M_Week.Dates     = Dates_Week;
+
+    if nargin > 1
+        M_Week.Countries = opts.Countries;
+    end
 
 end

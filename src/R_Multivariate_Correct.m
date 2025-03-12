@@ -154,7 +154,7 @@ function [R,O,obj,incr,op] = R_Multivariate_Correct(Z,Zphi,lambda_T,G,lambda_S,l
             objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(1:C,:).^2,1))) + tau*sum(sum(abs([y(C+1:2*C,:);y(3*C+1:end,:)])));
         elseif strcmp(opts.spatial,'L2')
             prox.regularization      = @(y,tau) [prox_L12(y(1:C,:),tau); prox_L2(y(C+1:2*C,:),tau); max(y(2*C+1:3*C,:),0); prox_L1(y(3*C+1:end,:),tau)];
-            objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(1:C,:).^2,1))) + tau*sum(sum(y(C+1:2*C,:).^2)) + tau*sum(sum(abs(y(3*C+1:end,:))));
+            objective.regularization = @(y,tau) tau*sum(sqrt(sum(y(1:C,:).^2,1))) + 1/2*tau*sum(sum(y(C+1:2*C,:).^2)) + tau*sum(sum(abs(y(3*C+1:end,:))));
         end
 
     end
