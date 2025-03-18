@@ -67,6 +67,9 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
         % temporal axis
         Dates     = 1:size(Z_Day,2);
 
+        % handled no option for Phi
+        opts      = struct;
+
     else
 
         if ~isfield(opts,'FontSize'); opts.FontSize = 22.5;        end
