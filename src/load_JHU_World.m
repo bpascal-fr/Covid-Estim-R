@@ -189,6 +189,7 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
     Zdata(Zdata < 0) = 0 ;
 
     % Apply a sliding median to discard outlier values
+    alpha            = 7 ;
     Zalpha           = sliding_median(Zdata,alpha,win);
 
     %% COMPUTE GLOBAL INFECTIOUSNESS
