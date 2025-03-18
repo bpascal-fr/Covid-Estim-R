@@ -29,6 +29,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     %                   opts.Phi: daily discretized serial interval function to be used (default: daily discretized Covid19 serial interval function)
     %                   opts.R: ground truth daily reproduction number
     %                   opts.Countries: list of the C countries monitored
+    %                   opts.Display: display weekly vs. daily counts if true (default: true)
     %
     %
     % Outputs: - Z_Week: weekly aggregated infection counts
@@ -70,10 +71,14 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
         % handled no option for Phi
         opts      = struct;
 
+        % display weekly vs. daily counts
+        Display   = true;
+
     else
 
         if ~isfield(opts,'FontSize'); opts.FontSize = 22.5;        end
         if ~isfield(opts,'Dates');    opts.Dates = 1:length(GT.R); end
+        if ~isfield(opts,'Display');  opts.Display = true;         end
 
         % plot font size
         FontSize = opts.FontSize;
@@ -138,29 +143,31 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
 
     %% DISPLAY DAILY VS. WEEKLY INFECTION COUNTS
 
-    for n = 1:size(Z_Week,1)
-        fn                = figure(100 + n); clf
-        q                 = plot(Dates_Week,Z_Week(n,:),'-^','linewidth',1.5,'markersize',10,'color','black');
-        grid on ; hold on
-        ylabel('weekly counts','Interpreter','Latex')
-        yyaxis right
-        p                 = plot(Dates,Z_Day(n,:),'linewidth',1.5,'color',[0.5,0.5,0.5]);
-        ax                = gca;
-        ax.YAxis(2).Color = [0.5,0.5,0.5];
-        ax.YAxis(1).Color = 'black';
-        xlim([Dates(1) Dates(end)])
-        leg             = legend([p,q],'$\mathrm{Z}_t^{\mathrm{Day}}$','$\mathrm{Z}_w^{\mathrm{Week}}$','location','best');
-        leg.Interpreter = 'Latex';
-        leg.Color       = 'none';
-        leg.FontSize    = FontSize;
-        ylabel('daily counts','Interpreter','Latex')
-        if isfield(opts,'Countries')
-            title(strcat("Fom daily to weekly counts in ",opts.Countries(n)),'Interpreter','Latex')
-        else
-            title(strcat("Fom daily to weekly counts in territory ",num2str(n)),'Interpreter','Latex')
+    if Display
+        for n = 1:size(Z_Week,1)
+            fn                = figure(100 + n); clf
+            q                 = plot(Dates_Week,Z_Week(n,:),'-^','linewidth',1.5,'markersize',10,'color','black');
+            grid on ; hold on
+            ylabel('weekly counts','Interpreter','Latex')
+            yyaxis right
+            p                 = plot(Dates,Z_Day(n,:),'linewidth',1.5,'color',[0.5,0.5,0.5]);
+            ax                = gca;
+            ax.YAxis(2).Color = [0.5,0.5,0.5];
+            ax.YAxis(1).Color = 'black';
+            xlim([Dates(1) Dates(end)])
+            leg             = legend([p,q],'$\mathrm{Z}_t^{\mathrm{Day}}$','$\mathrm{Z}_w^{\mathrm{Week}}$','location','best');
+            leg.Interpreter = 'Latex';
+            leg.Color       = 'none';
+            leg.FontSize    = FontSize;
+            ylabel('daily counts','Interpreter','Latex')
+            if isfield(opts,'Countries')
+                title(strcat("Fom daily to weekly counts in ",opts.Countries(n)),'Interpreter','Latex')
+            else
+                title(strcat("Fom daily to weekly counts in territory ",num2str(n)),'Interpreter','Latex')
+            end
+            set(gca,'ticklabelinterpreter','Latex','fontsize',FontSize,'color','None')
+            fn.Position     = [211 287 943 314];
         end
-        set(gca,'ticklabelinterpreter','Latex','fontsize',FontSize,'color','None')
-        fn.Position     = [211 287 943 314];
     end
 
      %% STORE RESULTS
