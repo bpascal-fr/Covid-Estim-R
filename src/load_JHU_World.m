@@ -25,7 +25,7 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
     %                   opts.LastDay: last day of the time period in format 'YYYY-MM-DD' (default '2023-03-09', latest day possible)
     %                   opts.T: number of day of the time period (default: total number of days available in JHU repository).
     %                   opts.Download: 0 for loading the .csv in folder data, 1 for downloading data from https://coronavirus.jhu.edu/
-    %                   opts.alpha: window size for the sliding median preprocessing (default value: 7)
+    %                   opts.win: window size for the sliding median preprocessing (default value: 7)
     %
     %
     % Outputs: - Z_User: new infection counts in the C countries in Countries and during T days, stored in a C x T matrix.
