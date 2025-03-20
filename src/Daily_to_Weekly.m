@@ -76,15 +76,18 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
 
     else
 
-        if ~isfield(opts,'FontSize'); opts.FontSize = 22.5;        end
-        if ~isfield(opts,'Dates');    opts.Dates = 1:length(GT.R); end
-        if ~isfield(opts,'Display');  opts.Display = true;         end
+        if ~isfield(opts,'FontSize'); opts.FontSize = 22.5;         end
+        if ~isfield(opts,'Dates');    opts.Dates = 1:size(Z_Day,2); end
+        if ~isfield(opts,'Display');  opts.Display = true;          end
 
         % plot font size
         FontSize = opts.FontSize;
 
         % temporal axis
         Dates    = opts.Dates;
+
+        % display weekly vs. daily counts
+        Display   = opts.Display;
 
     end
 
@@ -181,7 +184,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     M_Week.Phi       = Phi_Week;
     M_Week.Dates     = Dates_Week;
 
-    if nargin > 1
+    if nargin > 1 && isfield(opts,'Countries')
         M_Week.Countries = opts.Countries;
     end
 
