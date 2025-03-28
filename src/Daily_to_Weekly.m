@@ -1,16 +1,16 @@
-% Turn multivariate daily infection counts into weekly infection 
+% Turn multivariate daily infection counts into weekly infection
 % counts by aggregating counts over seven days in each territory separately
 % and compute the associated  weekly global infectiousness.
-% 
+%
 % The daily discretized serial interval function is also weekly discretized
-% using the left-rectangle integration method with constant step size of 
+% using the left-rectangle integration method with constant step size of
 % one day length.
 %
 % References
 %
-% - Nash, R. K., Bhatt, S., Cori, A., & Nouvellet, P. (2023). Estimating the 
-% epidemic reproduction number from temporally aggregated incidence data: 
-% A statistical modelling approach and software tool. 
+% - Nash, R. K., Bhatt, S., Cori, A., & Nouvellet, P. (2023). Estimating the
+% epidemic reproduction number from temporally aggregated incidence data:
+% A statistical modelling approach and software tool.
 % PLOS Computational Biology, 19(8), e1011439.
 %
 % - Pascal, B., Vaiter, S. (2024, September). Risk Estimate under a
@@ -22,7 +22,7 @@
 
 function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
 
-    % Inputs: - Z_Day: multivariate daily infection count time series 
+    % Inputs: - Z_Day: multivariate daily infection count time series
     %         - opts: parameters of the model, structure containing
     %                   opts.FontSize: font size in the plots (default FontSize = 22.5)
     %                   opts.Dates: abstract dates in datetime format for display
@@ -41,23 +41,24 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     %                   M_Week.Dates: dates corresponding to the last days of the weeks over which infection counts are aggreagted.  (If dates are provided.)
     %                   M_Week.Countries: list of the C countries monitored
 
-    %% RESIZE INPUT 
+    %% RESIZE INPUT
 
     [d1,d2]     = size(Z_Day);
 
     if min(d1,d2) == 1
-        
+
         Z_Day   = reshape(Z_Day,1,max(d1,d2));
 
-        if isfield(opts,'R')
-            [e1,e2]     = size(opts.R);
-            if (e1 == d1)&(e2 == d2)
-                opts.R  = reshape(opts.R,1,max(d1,d2));
-            else
-                warning('The reproduction number should have the same has Z. Since it is not the case it will be ignored.')
+        if nargin == 2
+            if isfield(opts,'R')
+                [e1,e2]     = size(opts.R);
+                if (e1 == d1)&(e2 == d2)
+                    opts.R  = reshape(opts.R,1,max(d1,d2));
+                else
+                    warning('The reproduction number should have the same has Z. Since it is not the case it will be ignored.')
+                end
             end
         end
-
     end
 
     if nargin < 2
@@ -100,7 +101,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     end
 
     % Corresponding dates
-    Dates_Day    = Dates(1:7*W); 
+    Dates_Day    = Dates(1:7*W);
     Dates_Week   = Dates_Day(7:7:end);
 
     % Construct the discretized serial interval function
@@ -142,7 +143,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
     Z_Day              = Z_Day(:,8:end);
     Dates              = Dates(8:end);
     Dates_Week         = Dates_Week(2:end);
-   
+
 
     %% DISPLAY DAILY VS. WEEKLY INFECTION COUNTS
 
@@ -173,7 +174,7 @@ function [Z_Week, Zphi_Week, M_Week] = Daily_to_Weekly(Z_Day, opts)
         end
     end
 
-     %% STORE RESULTS
+    %% STORE RESULTS
 
     if d2 == 1
         Z_Week       = reshape(Z_Week,W,d2);
