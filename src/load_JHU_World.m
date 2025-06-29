@@ -25,6 +25,7 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
     %                   opts.LastDay: last day of the time period in format 'YYYY-MM-DD' (default '2023-03-09', latest day possible)
     %                   opts.T: number of day of the time period (default: total number of days available in JHU repository).
     %                   opts.Download: 0 for loading the .csv in folder data, 1 for downloading data from https://coronavirus.jhu.edu/
+    %                   opts.Outlier: if true apply a sliding median smoothing to discard outlier values (default: true)
     %                   opts.win: window size for the sliding median preprocessing (default value: 7)
     %
     %
@@ -45,6 +46,9 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
         % Load data from local folder
         Download   = 0;
 
+        % sliding median smoothing
+        Outlier    = false;
+
         % Window size for the sliding median
         win        = 7;
 
@@ -53,6 +57,7 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
         if ~isfield(opts,'LastDay'),  opts.LastDay  = '2023-03-09'; end
         if ~isfield(opts,'T'),        opts.T        = -1; end
         if ~isfield(opts,'Download'), opts.Download = 0; end
+        if ~isfield(opts,'Outlier');  opts.Outlier  = true; end
         if ~isfield(opts,'win'),      opts.win    = 7; end
         
         % Last day of the period
@@ -64,6 +69,9 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
 
         % Load or download data
         Download   = opts.Download;
+
+        % sliding median smoothing
+        Outlier  = opts.Outlier;
 
         % Window size for the sliding median
         win        = opts.win;
@@ -190,7 +198,11 @@ function [Z_User, Zphi_User, Dates_User, Countries] = load_JHU_World(User_Countr
 
     % Apply a sliding median to discard outlier values
     alpha            = 7 ;
-    Zalpha           = sliding_median(Zdata,alpha,win);
+    if Outlier
+        Zalpha       = sliding_median(Zdata,alpha,win);
+    else
+        Zalpha       = Zdata;
+    end
 
     %% COMPUTE GLOBAL INFECTIOUSNESS
 
