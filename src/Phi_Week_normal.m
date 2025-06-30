@@ -96,7 +96,7 @@ function [Zphi, Z, Phi] = Phi_Week_normal(Z,Phi)
 
     % compute the convolution of Z by Phi, territory per territory if multivariate Z
     Zphi             = convn(Z,Phi);
-    Zphi             = Zphi(:,1:size(Z,2));  save('Zphi2','Zphi')
+    Zphi             = Zphi(:,1:size(Z,2));  
 
     % recompute the first tau_phi elements with normalized Phi
     Phi              = reshape(Phi,length(Phi),1);
